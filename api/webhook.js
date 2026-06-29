@@ -345,15 +345,10 @@ export default async function handler(req, res) {
     for (const event of events) {
       if (!event.replyToken || !LINE_TOKEN) continue;
 
-      // ── 加入好友：自動推送歡迎 + 卡片選單 ──
+      // ── 加入好友：自動推送卡片選單 ──
+      // （歡迎文字由 LINE 內建「加入好友的歡迎訊息」負責，此處只補卡片避免重複）
       if (event.type === 'follow') {
-        await replyToLine(event.replyToken, [
-          {
-            type: 'text',
-            text: '👋 歡迎加入集思室內設計！\n\n我是您的 AI 裝潢顧問，可即時解答裝潢相關問題。\n\n第一次認識我們，推薦先看「🌟 認識集思 · 新手必看」這張卡！\n請左右滑動下方卡片選擇類別 👇\n（也可直接輸入關鍵字，如「壁癌」「工期」「諮詢費」）'
-          },
-          buildFlexMenu()
-        ]);
+        await replyToLine(event.replyToken, [buildFlexMenu()]);
         continue;
       }
 
