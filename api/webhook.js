@@ -39,14 +39,24 @@ KEYWORD_ACTIONS['thank you'] = KEYWORD_ACTIONS['謝謝'];
 
 function buildFlexMenu() {
   const cats = [
-    { emoji: '🌟', title: '認識集思 · 新手必看', desc: '地點聯繫・風格・收費・諮詢・工期', code: '7', bg: '#EADDC4' },
-    { emoji: '📐', title: '空間與動線規劃',     desc: '坪數放大・收納動線・夾層挑高',     code: '1', bg: '#F5F0E8' },
-    { emoji: '🔨', title: '老屋翻新基礎工程',   desc: '壁癌防水・電線管路・鋁窗',         code: '2', bg: '#EDE8E3' },
-    { emoji: '🪵', title: '材質與建材挑選',     desc: '系統木作・塗料地板・天花板',       code: '3', bg: '#E8EDE8' },
-    { emoji: '🎨', title: '風格與智慧家電',     desc: '工業/極簡・冷氣燈光・智慧開關',   code: '4', bg: '#E8EBF0' },
-    { emoji: '🏗️', title: '預售屋與客變進階',   desc: '客變流程・退料・陪同驗屋',         code: '5', bg: '#F0EBE8' },
-    { emoji: '📋', title: '費用・驗收・保固',   desc: '報價保固・監工・完工驗收',         code: '6', bg: '#EEE8F0' }
+    { num: '01', en: 'ABOUT',    title: '認識集思 · 新手必看', desc: '地點・風格・收費・諮詢・工期', code: '7', featured: true },
+    { num: '02', en: 'SPACE',    title: '空間與動線規劃',     desc: '坪數放大・收納動線・夾層挑高', code: '1' },
+    { num: '03', en: 'RENEW',    title: '老屋翻新基礎工程',   desc: '壁癌防水・電線管路・鋁窗',     code: '2' },
+    { num: '04', en: 'MATERIAL', title: '材質與建材挑選',     desc: '系統木作・塗料地板・天花板',   code: '3' },
+    { num: '05', en: 'STYLE',    title: '風格與智慧家電',     desc: '工業極簡・冷氣燈光・智慧開關', code: '4' },
+    { num: '06', en: 'PRE-SALE', title: '預售屋與客變進階',   desc: '客變流程・退料・陪同驗屋',     code: '5' },
+    { num: '07', en: 'SERVICE',  title: '費用 · 驗收 · 保固', desc: '報價保固・監工・完工驗收',     code: '6' }
   ];
+
+  const ivory     = '#F4EEE4';   // 一般卡奶油底
+  const ivoryGold = '#EBDFC9';   // 精選卡暖金底
+  const lineColor = '#E3D9C8';   // 細分隔線
+  const enMuted   = '#AC9B80';   // 英文大字（一般）
+  const enGold    = '#9C7C45';   // 英文大字（精選）
+  const titleDark = '#3D3833';   // 中文標題
+  const descMuted = '#A89F94';   // 說明文字
+  const btnTaupe  = '#8A7A64';   // 按鈕（一般）
+  const btnGold   = '#B8975A';   // 按鈕（精選）
 
   return {
     type: 'flex',
@@ -56,33 +66,54 @@ function buildFlexMenu() {
       contents: cats.map(cat => ({
         type: 'bubble',
         size: 'kilo',
-        header: {
-          type: 'box',
-          layout: 'vertical',
-          contents: [{ type: 'text', text: cat.emoji, size: '4xl', align: 'center' }],
-          backgroundColor: cat.bg,
-          paddingTop: '20px',
-          paddingBottom: '12px'
-        },
         body: {
           type: 'box',
           layout: 'vertical',
-          spacing: 'md',
-          paddingTop: '14px',
-          paddingBottom: '10px',
+          spacing: 'none',
+          paddingAll: '0px',
           contents: [
-            { type: 'text', text: cat.title, weight: 'bold', size: 'xl', align: 'center', wrap: true, color: '#333333' },
-            { type: 'text', text: cat.desc,  size: 'sm', align: 'center', wrap: true, color: '#888888' }
+            // 雜誌風主視覺：編號 + 大字英文
+            {
+              type: 'box',
+              layout: 'vertical',
+              backgroundColor: cat.featured ? ivoryGold : ivory,
+              paddingTop: '24px',
+              paddingBottom: '22px',
+              paddingStart: '12px',
+              paddingEnd: '12px',
+              spacing: 'xs',
+              contents: [
+                { type: 'text', text: cat.num, size: 'xs', align: 'center', color: cat.featured ? enGold : descMuted },
+                { type: 'text', text: cat.en, size: '3xl', weight: 'regular', align: 'center', wrap: false, color: cat.featured ? enGold : enMuted }
+              ]
+            },
+            // 細分隔線
+            { type: 'box', layout: 'vertical', height: '1px', backgroundColor: lineColor, contents: [{ type: 'filler' }] },
+            // 中文標題 + 說明
+            {
+              type: 'box',
+              layout: 'vertical',
+              spacing: 'sm',
+              paddingTop: '16px',
+              paddingBottom: '6px',
+              paddingStart: '12px',
+              paddingEnd: '12px',
+              contents: [
+                { type: 'text', text: cat.title, size: 'lg', weight: 'bold', align: 'center', wrap: true, color: titleDark },
+                { type: 'text', text: cat.desc,  size: 'xs', align: 'center', wrap: true, color: descMuted }
+              ]
+            }
           ]
         },
         footer: {
           type: 'box',
           layout: 'vertical',
+          paddingTop: '2px',
           contents: [{
             type: 'button',
             action: { type: 'message', label: '查看問題 →', text: cat.code },
             style: 'primary',
-            color: cat.code === '7' ? '#B8975A' : '#7B6B55',
+            color: cat.featured ? btnGold : btnTaupe,
             height: 'md'
           }]
         }
