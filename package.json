@@ -1,0 +1,6 @@
+{
+  "name": "line-qa-webhook",
+  "version": "1.0.0",
+  "description": "集思室內設計 LINE 自動回覆 Webhook",
+  "private": true
+}
