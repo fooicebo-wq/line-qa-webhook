@@ -3,24 +3,37 @@
 
 const LINE_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
-// 原生精確關鍵字（LINE 原生已處理，跳過避免重複回覆）
-// 報價/預約/作品/風格 改由本 webhook 實裝（見 KEYWORD_ACTIONS），故移出此清單
-const NATIVE_EXACT = new Set([
-  '地址', '在哪', '位置',
-  '費用', '多少錢', '謝謝', '感謝', 'thank you'
-]);
+// 原生精確關鍵字清單（已清空：native 自動回覆全部關閉，由 webhook 統一接管）
+const NATIVE_EXACT = new Set([]);
 
 // ── 主功能關鍵字（精確比對，優先於選單與 Q&A）──────────
 const KEYWORD_ACTIONS = {
   '報價': '💰 索取報價\n\n我們的報價會依坪數、格局與工程項目客製化。為了給您最精準的報價，建議先填寫線上需求清單，我們了解需求後會主動與您聯繫：\n\n📋 需求清單：\nhttps://cosmic-begonia-4ca436.netlify.app\n\n或直接來電：04-3505-2921\n— 集思室內設計 AI 顧問',
 
+  '費用': '💰 裝修費用說明\n\n費用會依坪數、屋況（新成屋／中古屋／老屋）、裝修幅度與工種而有所不同，無法一概而論。建議填寫需求清單或來電，我們了解後給您透明的預估：\n\n📋 https://cosmic-begonia-4ca436.netlify.app\n📞 04-3505-2921\n— 集思室內設計 AI 顧問',
+
   '預約': '📅 預約諮詢\n\n初次線上溝通與到辦公室初步諮詢皆「免費」！歡迎透過以下方式預約：\n\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n📍 台中市南區新華街30號\n\n也可先填需求清單，諮詢更有效率：\nhttps://cosmic-begonia-4ca436.netlify.app\n— 集思室內設計 AI 顧問',
 
   '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n— 集思室內設計 AI 顧問',
 
-  '風格': '🎨 風格辨識服務\n\n請直接傳一張您喜歡的空間照片給我們，設計師會協助您辨識它屬於哪種風格，並建議適合您的規劃方向！\n\n您也可以用文字告訴我們喜歡的感覺（例如：溫馨、簡約、奢華、北歐），我們再為您推薦。\n— 集思室內設計 AI 顧問'
+  '風格': '🎨 風格辨識服務\n\n請直接傳一張您喜歡的空間照片給我們，設計師會協助您辨識它屬於哪種風格，並建議適合您的規劃方向！\n\n您也可以用文字告訴我們喜歡的感覺（例如：溫馨、簡約、奢華、北歐），我們再為您推薦。\n— 集思室內設計 AI 顧問',
+
+  '地址': '📍 集思室內設計\n\n地址：台中市南區新華街30號\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n\n初步諮詢免費，歡迎預約前來！\n— 集思室內設計 AI 顧問',
+
+  '需求清單': '📋 客戶需求清單\n\n填寫線上需求清單，讓我們在諮詢前先了解您的需求，討論更有效率：\n\nhttps://cosmic-begonia-4ca436.netlify.app\n— 集思室內設計 AI 顧問',
+
+  '謝謝': '不客氣！很開心能為您服務 😊\n\n還有任何裝潢問題都歡迎隨時詢問，或輸入【常見問題】查看更多解答。\n— 集思室內設計 AI 顧問'
 };
+// 同義詞對應
 KEYWORD_ACTIONS['看風格'] = KEYWORD_ACTIONS['風格'];
+KEYWORD_ACTIONS['多少錢'] = KEYWORD_ACTIONS['費用'];
+KEYWORD_ACTIONS['在哪']   = KEYWORD_ACTIONS['地址'];
+KEYWORD_ACTIONS['位置']   = KEYWORD_ACTIONS['地址'];
+KEYWORD_ACTIONS['需求']   = KEYWORD_ACTIONS['需求清單'];
+KEYWORD_ACTIONS['表單']   = KEYWORD_ACTIONS['需求清單'];
+KEYWORD_ACTIONS['問卷']   = KEYWORD_ACTIONS['需求清單'];
+KEYWORD_ACTIONS['感謝']     = KEYWORD_ACTIONS['謝謝'];
+KEYWORD_ACTIONS['thank you'] = KEYWORD_ACTIONS['謝謝'];
 
 // ── Flex 卡片主選單（精選在最前，技術類別在後）──────────
 
