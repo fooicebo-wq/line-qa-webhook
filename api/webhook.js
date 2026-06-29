@@ -216,8 +216,9 @@ export default async function handler(req, res) {
       if (NATIVE_EXACT.has(userMsg)) continue;
 
       const answer = findAnswer(userMsg);
-      if (answer && LINE_TOKEN) {
-        await replyToUser(replyToken, answer);
+      if (LINE_TOKEN) {
+        const reply = answer || '感謝您的訊息！您的問題我們已收到，設計師將盡快與您聯繫，或歡迎直接撥打電話洽詢。\n— 集思室內設計 AI 顧問';
+        await replyToUser(replyToken, reply);
       }
     }
   } catch (err) {
