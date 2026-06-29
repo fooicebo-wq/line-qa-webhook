@@ -217,7 +217,7 @@ export default async function handler(req, res) {
 
       const answer = findAnswer(userMsg);
       if (LINE_TOKEN) {
-        const reply = answer || '感謝您的訊息！您的問題我們已收到，設計師將盡快與您聯繫，或歡迎直接撥打電話洽詢。\n— 集思室內設計 AI 顧問';
+        const reply = answer || '感謝您的訊息！您的問題我們已收到，設計師將盡快與您聯繫。\n\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n\n— 集思室內設計 AI 顧問';
         await replyToUser(replyToken, reply);
       }
     }
