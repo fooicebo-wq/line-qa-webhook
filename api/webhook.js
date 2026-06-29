@@ -4,11 +4,23 @@
 const LINE_TOKEN = process.env.LINE_CHANNEL_ACCESS_TOKEN;
 
 // 原生精確關鍵字（LINE 原生已處理，跳過避免重複回覆）
+// 報價/預約/作品/風格 改由本 webhook 實裝（見 KEYWORD_ACTIONS），故移出此清單
 const NATIVE_EXACT = new Set([
-  '報價', '預約', '作品', '需求', '表單', '問卷',
-  '風格', '看風格', '地址', '在哪', '位置',
+  '地址', '在哪', '位置',
   '費用', '多少錢', '謝謝', '感謝', 'thank you'
 ]);
+
+// ── 主功能關鍵字（精確比對，優先於選單與 Q&A）──────────
+const KEYWORD_ACTIONS = {
+  '報價': '💰 索取報價\n\n我們的報價會依坪數、格局與工程項目客製化。為了給您最精準的報價，建議先填寫線上需求清單，我們了解需求後會主動與您聯繫：\n\n📋 需求清單：\nhttps://cosmic-begonia-4ca436.netlify.app\n\n或直接來電：04-3505-2921\n— 集思室內設計 AI 顧問',
+
+  '預約': '📅 預約諮詢\n\n初次線上溝通與到辦公室初步諮詢皆「免費」！歡迎透過以下方式預約：\n\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n📍 台中市南區新華街30號\n\n也可先填需求清單，諮詢更有效率：\nhttps://cosmic-begonia-4ca436.netlify.app\n— 集思室內設計 AI 顧問',
+
+  '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n— 集思室內設計 AI 顧問',
+
+  '風格': '🎨 風格辨識服務\n\n請直接傳一張您喜歡的空間照片給我們，設計師會協助您辨識它屬於哪種風格，並建議適合您的規劃方向！\n\n您也可以用文字告訴我們喜歡的感覺（例如：溫馨、簡約、奢華、北歐），我們再為您推薦。\n— 集思室內設計 AI 顧問'
+};
+KEYWORD_ACTIONS['看風格'] = KEYWORD_ACTIONS['風格'];
 
 // ── Flex 卡片主選單（精選在最前，技術類別在後）──────────
 
@@ -42,12 +54,12 @@ function buildFlexMenu() {
         body: {
           type: 'box',
           layout: 'vertical',
-          spacing: 'sm',
-          paddingTop: '12px',
-          paddingBottom: '8px',
+          spacing: 'md',
+          paddingTop: '14px',
+          paddingBottom: '10px',
           contents: [
-            { type: 'text', text: cat.title, weight: 'bold', size: 'sm', align: 'center', wrap: true, color: '#333333' },
-            { type: 'text', text: cat.desc,  size: 'xxs', align: 'center', wrap: true, color: '#999999' }
+            { type: 'text', text: cat.title, weight: 'bold', size: 'xl', align: 'center', wrap: true, color: '#333333' },
+            { type: 'text', text: cat.desc,  size: 'sm', align: 'center', wrap: true, color: '#888888' }
           ]
         },
         footer: {
@@ -58,7 +70,7 @@ function buildFlexMenu() {
             action: { type: 'message', label: '查看問題 →', text: cat.code },
             style: 'primary',
             color: cat.code === '7' ? '#B8975A' : '#7B6B55',
-            height: 'sm'
+            height: 'md'
           }]
         }
       }))
@@ -359,6 +371,12 @@ export default async function handler(req, res) {
 
       // 跳過原生精確關鍵字
       if (NATIVE_EXACT.has(userMsg)) continue;
+
+      // 主功能關鍵字（報價 / 預約 / 作品 / 風格）
+      if (KEYWORD_ACTIONS[userMsg]) {
+        await replyToLine(replyToken, [{ type: 'text', text: KEYWORD_ACTIONS[userMsg] }]);
+        continue;
+      }
 
       // 階層式選單（數字 / 代碼 / 觸發詞）
       const menuResult = handleMenu(userMsg);
