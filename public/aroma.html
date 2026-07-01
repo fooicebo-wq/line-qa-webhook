@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>室內精油調香大師 · 空間香氛配方工作室</title>
+<style>
+  :root{
+    --bg:#f4efe6; --bg2:#ece3d4; --card:#fffaf2; --ink:#3d3428; --ink2:#6d6350;
+    --line:#e3d8c4; --accent:#8a7a52; --accent2:#b79b62; --gold:#c2a35a;
+    --top:#c9822e; --mid:#7d9b6a; --base:#8a6d54; --danger:#b4573f;
+    --shadow:0 8px 30px rgba(90,72,40,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    background:radial-gradient(1200px 600px at 80% -10%, #f7f0e2, var(--bg)) fixed;
+    color:var(--ink); line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px}
+
+  /* Header */
+  header{text-align:center;padding:54px 20px 26px}
+  .kicker{letter-spacing:.42em;font-size:12px;color:var(--accent);font-weight:600;text-transform:uppercase}
+  header h1{font-size:34px;margin:10px 0 6px;font-weight:800;letter-spacing:.04em}
+  header p{margin:0;color:var(--ink2);font-size:15px}
+  .leaf{font-size:30px;filter:sepia(.3)}
+
+  /* Tabs */
+  nav.tabs{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;
+    padding:12px;background:rgba(244,239,230,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:30px}
+  nav.tabs button{border:1px solid transparent;background:transparent;color:var(--ink2);font:inherit;font-size:14.5px;
+    font-weight:600;padding:8px 16px;border-radius:999px;cursor:pointer;transition:.18s}
+  nav.tabs button:hover{color:var(--ink);background:#fff8ec}
+  nav.tabs button.active{background:var(--accent);color:#fff8ec;box-shadow:var(--shadow)}
+
+  section.tab{display:none;animation:fade .35s ease}
+  section.tab.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  h2.sec{font-size:22px;margin:6px 0 4px;letter-spacing:.03em}
+  .sub{color:var(--ink2);font-size:14px;margin:0 0 22px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:22px}
+  .grid{display:grid;gap:16px}
+
+  /* Selectors */
+  label.fld{display:block;font-weight:700;font-size:13px;color:var(--accent);letter-spacing:.05em;margin:0 0 8px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px 18px;cursor:pointer;font-size:16px;font-weight:700;
+    transition:.15s;color:var(--ink);user-select:none;max-width:240px;line-height:1.3}
+  .chip small{display:block;color:var(--ink2);font-size:12.5px;font-weight:400;margin-top:4px;line-height:1.5;white-space:normal}
+  .chip:hover{border-color:var(--accent2)}
+  .chip.on{background:var(--accent);color:#fff8ec;border-color:var(--accent)}
+  .chip.on small{color:#f0e6cf}
+
+  select,input[type=text]{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+
+  .btn{border:none;background:linear-gradient(180deg,var(--accent2),var(--accent));color:#fff8ec;font:inherit;font-weight:700;
+    padding:12px 26px;border-radius:12px;cursor:pointer;letter-spacing:.05em;box-shadow:var(--shadow);transition:.15s}
+  .btn:hover{filter:brightness(1.06);transform:translateY(-1px)}
+  .btn.ghost{background:#fff;color:var(--accent);border:1px solid var(--line);box-shadow:none}
+
+  /* Recipe card */
+  .recipe{background:linear-gradient(180deg,#fffdf8,#fdf6ea);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow)}
+  .recipe h3{margin:0 0 4px;font-size:20px}
+  .recipe .impress{color:var(--ink2);font-style:italic;margin:0 0 18px;font-size:14.5px}
+  .struct{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .pill{font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:999px;color:#fff}
+  .pill.t{background:var(--top)} .pill.m{background:var(--mid)} .pill.b{background:var(--base)}
+  .noterow{border-left:4px solid;padding:2px 0 2px 16px;margin:0 0 16px}
+  .noterow.t{border-color:var(--top)} .noterow.m{border-color:var(--mid)} .noterow.b{border-color:var(--base)}
+  .noterow .lbl{font-weight:800;font-size:13px;letter-spacing:.06em}
+  .noterow.t .lbl{color:var(--top)} .noterow.m .lbl{color:var(--mid)} .noterow.b .lbl{color:var(--base)}
+  .oilline{display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px dashed var(--line)}
+  .oilline:last-child{border-bottom:none}
+  .oilline .d{font-weight:800;color:var(--accent);white-space:nowrap;margin-left:14px}
+  .meta{display:grid;gap:6px;margin-top:6px;font-size:14px}
+  .meta div{color:var(--ink2)} .meta b{color:var(--ink)}
+  .safety{margin-top:16px;background:#fdf1ec;border:1px solid #f0d6cc;border-radius:12px;padding:12px 16px;font-size:13px;color:#7c4a3a}
+  .safety b{color:var(--danger)}
+
+  /* Ready blends library */
+  .libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .libcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);transition:.18s}
+  .libcard:hover{transform:translateY(-3px)}
+  .libcard h4{margin:0 0 3px;font-size:16px}
+  .libcard .tag{font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.08em}
+  .libcard .desc{color:var(--ink2);font-size:13px;margin:8px 0 12px;min-height:38px}
+  .libcard .drops{font-size:13px}
+  .libcard .drops span{display:inline-block;margin:2px 6px 2px 0}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+
+  .filterbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+  .filterbar button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;cursor:pointer;color:var(--ink2)}
+  .filterbar button.on{background:var(--accent);color:#fff8ec;border-color:var(--accent)}
+
+  /* DIY */
+  .diylayout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+  @media(max-width:820px){.diylayout{grid-template-columns:1fr}.diypanel{position:static!important}}
+  .oilpalette h5{margin:18px 0 8px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+  .oilpalette h5 .dot{width:10px;height:10px}
+  .oilbtns{display:flex;flex-wrap:wrap;gap:7px}
+  .oilbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 11px;cursor:pointer;font-size:13px;position:relative}
+  .oilbtn.strong::after{content:"少量";position:absolute;top:-7px;right:-6px;background:var(--danger);color:#fff;font-size:9px;padding:1px 5px;border-radius:6px}
+  .oilbtn:hover{border-color:var(--accent2);background:#fff8ec}
+  .diypanel{position:sticky;top:74px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:20px}
+  .diypanel h4{margin:0 0 12px}
+  .sel{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .sel .nm{font-size:14px}
+  .sel .nm .dot{width:8px;height:8px}
+  .stepper{display:flex;align-items:center;gap:6px}
+  .stepper button{width:26px;height:26px;border:1px solid var(--line);background:#fff;border-radius:7px;cursor:pointer;font-size:15px;font-weight:800;color:var(--accent);line-height:1}
+  .stepper .v{width:34px;text-align:center;font-weight:800}
+  .empty{color:var(--ink2);font-size:13px;text-align:center;padding:18px 0}
+  .ratio{margin-top:14px;font-size:13px}
+  .ratiobar{display:flex;height:12px;border-radius:8px;overflow:hidden;margin:8px 0;border:1px solid var(--line)}
+  .ratiobar i{display:block}
+  .verdict{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.65}
+  .verdict.good{background:#eef4e8;border:1px solid #cfe0bd;color:#4c6238}
+  .verdict.warn{background:#fdf6e6;border:1px solid #eddcae;color:#8a6a2a}
+  .verdict.bad{background:#fdf1ec;border:1px solid #f0d6cc;color:#8a4634}
+  .verdict ul{margin:6px 0 0;padding-left:18px}
+
+  /* theory / catalog */
+  .theory{display:grid;gap:16px}
+  .noteblock{border-radius:16px;padding:20px;color:#fff}
+  .noteblock.t{background:linear-gradient(120deg,#d08a37,#b56f22)}
+  .noteblock.m{background:linear-gradient(120deg,#87a56f,#5f7f4c)}
+  .noteblock.b{background:linear-gradient(120deg,#977153,#6f513a)}
+  .noteblock h3{margin:0 0 4px;font-size:19px}
+  .noteblock p{margin:0;opacity:.95;font-size:14px}
+  .noteblock .fam{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .noteblock .fam span{background:rgba(255,255,255,.2);border-radius:8px;padding:4px 10px;font-size:12.5px}
+
+  table.ratios{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+  table.ratios th,table.ratios td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  table.ratios th{color:var(--accent);font-size:13px}
+  table.ratios tr:hover td{background:#fff8ec}
+
+  details.cat{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;box-shadow:var(--shadow);overflow:hidden}
+  details.cat summary{cursor:pointer;padding:16px 20px;font-weight:800;font-size:16px;list-style:none;display:flex;align-items:center;gap:10px}
+  details.cat summary::-webkit-details-marker{display:none}
+  details.cat[open] summary{border-bottom:1px solid var(--line)}
+  details.cat .body{padding:6px 20px 18px}
+  .oilitem{padding:9px 0;border-bottom:1px dashed var(--line)}
+  .oilitem:last-child{border-bottom:none}
+  .oilitem b{font-size:14.5px} .oilitem .star{color:var(--gold)}
+  .oilitem small{display:block;color:var(--ink2);font-size:13px}
+
+  .callout{background:#fdf1ec;border:1px solid #f0d6cc;border-radius:14px;padding:18px 22px;color:#6f4335}
+  .callout h3{margin:0 0 8px;color:var(--danger)}
+  .callout ul{margin:0;padding-left:20px} .callout li{margin:5px 0;font-size:14px}
+
+  /* Brand logo */
+  .brand{display:flex;align-items:center;justify-content:center;gap:13px;margin-bottom:16px}
+  .brandmark{width:48px;height:48px;flex:none}
+  .brandtext{text-align:left;line-height:1.25}
+  .bn{font-weight:800;font-size:18px;letter-spacing:.16em;color:var(--accent)}
+  .be{font-size:9px;letter-spacing:.36em;color:var(--ink2);font-weight:600}
+
+  /* Converter */
+  .conv{display:grid;gap:20px}
+  .seg{display:flex;gap:8px;flex-wrap:wrap}
+  .numin{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .numin input[type=number]{width:96px;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+  .numin .u{color:var(--ink2);font-size:13px}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .rangeval{font-weight:800;color:var(--accent)}
+  .miniratio{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-top:6px}
+  .miniratio b{color:var(--ink)}
+
+  footer{text-align:center;color:var(--ink2);font-size:12.5px;padding:30px 20px 10px}
+  .divider{height:1px;background:var(--line);margin:26px 0}
+  .hint{font-size:12.5px;color:var(--ink2);margin-top:8px}
+  @media print{nav.tabs{display:none}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg class="brandmark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="30" fill="none" stroke="var(--gold)" stroke-width="2"/>
+      <path d="M32 13 C19 24, 19 41, 32 51 C45 41, 45 24, 32 13 Z" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      <line x1="32" y1="17" x2="32" y2="51" stroke="var(--accent)" stroke-width="1.5"/>
+      <path d="M23 29 L32 33 M41 29 L32 33 M25 39 L32 42 M39 39 L32 42" stroke="var(--accent)" stroke-width="1.4" fill="none"/>
+    </svg>
+    <div class="brandtext">
+      <div class="bn">集思室內設計</div>
+      <div class="be">JISI INTERIOR DESIGN</div>
+    </div>
+  </div>
+  <div class="kicker">Interior Aroma Atelier</div>
+  <h1><span class="leaf">🌿</span> 室內精油調香大師</h1>
+  <p>把「室內設計風格 × 空間機能 × 心理氛圍」翻譯成一支結構完整、氣味和諧的擴香配方</p>
+</header>
+
+<nav class="tabs">
+  <button data-tab="gen" class="active">配方產生器</button>
+  <button data-tab="diy">DIY 自訂調香台</button>
+  <button data-tab="convert">噴霧／藤枝換算</button>
+  <button data-tab="lib">現成配方庫</button>
+  <button data-tab="theory">香調理論</button>
+  <button data-tab="catalog">精油目錄</button>
+  <button data-tab="safety">安全鐵則</button>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ 配方產生器 ============ -->
+<section class="tab active" id="gen">
+  <h2 class="sec">配方產生器</h2>
+  <p class="sub">選一個風格＋一個空間，決定擴香規模，即時生成含滴數的完整配方。空間機能決定安全與強度，風格決定香調個性。</p>
+
+  <div class="card grid" style="gap:22px">
+    <div>
+      <label class="fld">① 室內設計風格</label>
+      <div class="chips" id="styleChips"></div>
+    </div>
+    <div>
+      <label class="fld">② 空間 / 機能</label>
+      <div class="chips" id="roomChips"></div>
+    </div>
+    <div>
+      <label class="fld">③ 擴香規模（決定總滴數）</label>
+      <div class="chips" id="sizeChips">
+        <div class="chip on" data-size="0.5">小空間 <small>浴室／玄關 · 約3–5滴</small></div>
+        <div class="chip" data-size="1"  data-def>中空間 <small>臥室／書房 · 約6–8滴</small></div>
+        <div class="chip" data-size="1.5">大空間 <small>客廳／開放式 · 約9–12滴</small></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+      <button class="btn" id="genBtn">生成配方 ✦</button>
+      <span class="hint">未選空間時，只用風格配方；選了空間會以「空間機能」為安全底線融合風格個性。</span>
+    </div>
+  </div>
+
+  <div id="genOut" style="margin-top:24px"></div>
+</section>
+
+<!-- ============ DIY ============ -->
+<section class="tab" id="diy">
+  <h2 class="sec">DIY 自訂調香台</h2>
+  <p class="sub">從精油調色盤點選精油、增減滴數，右側即時檢查你的「前 : 中 : 後」比例是否立體平衡，並提醒濃郁／刺激精油的用量。</p>
+  <div class="diylayout">
+    <div class="oilpalette card">
+      <div id="palette"></div>
+    </div>
+    <div class="diypanel">
+      <h4>🧪 我的配方</h4>
+      <div id="selList"><div class="empty">從左邊點選精油開始調香…</div></div>
+      <div class="ratio" id="ratioBox" style="display:none">
+        <div>前中後比例</div>
+        <div class="ratiobar" id="ratioBar"></div>
+        <div id="ratioText" style="font-weight:700"></div>
+      </div>
+      <div id="verdict"></div>
+      <div style="margin-top:14px;display:flex;gap:8px">
+        <button class="btn ghost" id="clearDiy" style="flex:1">清空</button>
+        <button class="btn ghost" id="rescueDiy" style="flex:1" title="加1滴真正薰衣草通常能挽回和諧度">救援 +薰衣草</button>
+      </div>
+      <button class="btn ghost" id="exportDiy" style="width:100%;margin-top:8px">💾 存成圖片卡</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 現成配方庫 ============ -->
+<section class="tab" id="lib">
+  <h2 class="sec">現成配方庫</h2>
+  <p class="sub">依風格、空間、季節、情境整理好的配方，滴數以中空間水氧機（總6–8滴）為基準。點卡片可帶入 DIY 台微調。</p>
+  <div class="filterbar" id="libFilter">
+    <button class="on" data-f="all">全部</button>
+    <button data-f="style">依風格</button>
+    <button data-f="room">依空間</button>
+    <button data-f="season">依季節</button>
+    <button data-f="mood">依情境</button>
+  </div>
+  <div class="libgrid" id="libGrid"></div>
+</section>
+
+<!-- ============ 香調理論 ============ -->
+<section class="tab" id="theory">
+  <h2 class="sec">前・中・後調（香階）</h2>
+  <p class="sub">立體、耐聞、能留香的空間香氛，需要三種揮發速度的精油分工合作 —— 像一支球隊。缺一角，氣味就不完整。</p>
+  <div class="theory">
+    <div class="noteblock t">
+      <h3>前調 Top · 前鋒</h3>
+      <p>揮發最快（約 10–30 分），決定第一印象，明亮清新但單獨用一下就散。</p>
+      <div class="fam"><span>柑橘</span><span>清爽草本</span><span>薄荷</span><span>尤加利</span></div>
+    </div>
+    <div class="noteblock m">
+      <h3>中調 Middle · 中鋒</h3>
+      <p>揮發次之（30分–2小時），是配方的主體與靈魂，決定整體性格。</p>
+      <div class="fam"><span>花香</span><span>溫和草本</span><span>部分辛香</span><span>針葉森林</span></div>
+    </div>
+    <div class="noteblock b">
+      <h3>後調 Base · 後衛（定香）</h3>
+      <p>揮發最慢（2小時以上），負責定香、留韻與穩定，讓香味站得住、留得久。</p>
+      <div class="fam"><span>木質</span><span>樹脂</span><span>根部大地</span><span>香草</span></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <h2 class="sec">黃金比例（前 : 中 : 後）</h2>
+  <p class="sub">總量以「份」計，1 份可先設 1 滴，再依空間放大。</p>
+  <div class="card">
+    <table class="ratios">
+      <tr><th>比例</th><th>特性</th><th>適用</th></tr>
+      <tr><td><b>3 : 2 : 1</b></td><td>清新中帶穩定，最通用</td><td>預設首選、多數風格</td></tr>
+      <tr><td><b>2 : 2 : 1</b></td><td>中後調更飽滿柔和沉穩</td><td>臥室、輕奢、日式</td></tr>
+      <tr><td><b>7 : 2 : 1</b>（或 4:2:1）</td><td>前調更亮更清爽</td><td>玄關、浴室、夏季、北歐</td></tr>
+    </table>
+    <p class="hint" style="margin-top:14px">
+      • 花香濃郁精油（玫瑰、茉莉、依蘭、橙花）橫跨中後調、氣味強，1–2 滴即有存在感。<br>
+      • 刺激或強勢精油（肉桂、丁香、廣藿香、黑胡椒、野馬鬱蘭）只需 ½–1 滴微量點綴。<br>
+      • 救援小技巧：味道調壞了，加 1 滴<b>真正薰衣草</b>通常能挽回和諧度。
+    </p>
+  </div>
+</section>
+
+<!-- ============ 精油目錄 ============ -->
+<section class="tab" id="catalog">
+  <h2 class="sec">精油目錄（依香階）</h2>
+  <p class="sub">優先取自芳療家 Florihana 常備精油。★ 為該家族最百搭的入門款。</p>
+  <div id="catalogOut"></div>
+</section>
+
+<!-- ============ 換算工具 ============ -->
+<section class="tab" id="convert">
+  <h2 class="sec">噴霧 / 藤枝擴香 換算器</h2>
+  <p class="sub">把「前 : 中 : 後」的滴數配方，換算成噴霧或藤枝擴香瓶的實際用量（精油、基劑、水的比例），並保留香階結構。1 滴 ≈ 0.05 ml。</p>
+
+  <div class="card conv">
+    <div>
+      <label class="fld">① 配方來源</label>
+      <div class="seg" id="convSrc">
+        <div class="chip on" data-src="diy">沿用 DIY 台配方 <small>沒有就用預設 3:2:1</small></div>
+        <div class="chip" data-src="manual">手動輸入滴數</div>
+      </div>
+      <div id="manualBox" style="display:none;margin-top:12px">
+        <div class="numin">
+          <span class="u">前調</span><input type="number" id="mTop" value="3" min="0" step="0.5">
+          <span class="u">中調</span><input type="number" id="mMid" value="2" min="0" step="0.5">
+          <span class="u">後調</span><input type="number" id="mBase" value="1" min="0" step="0.5"><span class="u">滴（比例份數）</span>
+        </div>
+      </div>
+      <div class="miniratio" id="convRatio"></div>
+    </div>
+
+    <div>
+      <label class="fld">② 成品型式</label>
+      <div class="seg" id="convProduct">
+        <div class="chip on" data-p="spray">噴霧 Spray <small>空間／布織品／隨身</small></div>
+        <div class="chip" data-p="reed">藤枝擴香 Reed <small>無電無火長效</small></div>
+        <div class="chip" data-p="drops">水氧機／擴香儀 <small>純滴數</small></div>
+      </div>
+    </div>
+
+    <!-- Spray options -->
+    <div id="optSpray">
+      <label class="fld">③ 噴霧設定</label>
+      <div class="numin" style="margin-bottom:12px">
+        <span class="u">總容量</span><input type="number" id="sprayVol" value="100" min="10" step="10"><span class="u">ml</span>
+      </div>
+      <div class="seg" id="sprayUse">
+        <div class="chip on" data-c="1.5">空間噴霧 <small>1.5%</small></div>
+        <div class="chip" data-c="2">布織品／寢具 <small>2%</small></div>
+        <div class="chip" data-c="1">身體／隨身 <small>1%（避日曬）</small></div>
+      </div>
+    </div>
+
+    <!-- Reed options -->
+    <div id="optReed" style="display:none">
+      <label class="fld">③ 藤枝設定</label>
+      <div class="numin" style="margin-bottom:14px">
+        <span class="u">基劑量</span><input type="number" id="reedVol" value="100" min="20" step="10"><span class="u">ml（DPG擴香基劑或高純度酒精）</span>
+      </div>
+      <div>精油濃度：<span class="rangeval" id="reedCval">20</span>%（建議 15–30%）</div>
+      <input type="range" id="reedC" min="15" max="30" value="20" step="1">
+    </div>
+
+    <!-- Drops options -->
+    <div id="optDrops" style="display:none">
+      <label class="fld">③ 擴香規模</label>
+      <div class="seg" id="dropsSize">
+        <div class="chip" data-s="4">小空間 <small>浴室／玄關 · 約4滴</small></div>
+        <div class="chip on" data-s="7">中空間 <small>臥室／書房 · 約7滴</small></div>
+        <div class="chip" data-s="10">大空間 <small>客廳／開放 · 約10滴</small></div>
+      </div>
+    </div>
+
+    <div><button class="btn" id="convBtn">換算 ✦</button></div>
+  </div>
+
+  <div id="convOut" style="margin-top:24px"></div>
+</section>
+
+<!-- ============ 安全 ============ -->
+<section class="tab" id="safety">
+  <h2 class="sec">安全鐵則</h2>
+  <p class="sub">傳統芳療的空間使用參考，非醫療建議。每次調香都先過一遍。</p>
+  <div class="callout" style="margin-bottom:16px">
+    <h3>⚠ 材質保護</h3>
+    <ul>
+      <li>勿把純精油直接滴在家具、沙發、窗簾、木頭上 —— 高濃度會損壞材質、留下永久痕跡。要用請滴在棉球／擴香工具，或稀釋成噴霧。</li>
+    </ul>
+  </div>
+  <div class="callout" style="margin-bottom:16px">
+    <h3>⚠ 精油特性</h3>
+    <ul>
+      <li><b>光敏性</b>（柑橘類、歐白芷根）：純空間擴香無妨；但做成身體噴霧則塗抹後避免日曬。</li>
+      <li><b>刺激性</b>（肉桂、丁香、野馬鬱蘭、冬季香薄荷、百里酚百里香）：空間擴香只用極少量。</li>
+      <li><b>含酮／神經毒性</b>（艾草、鼠尾草、頭狀薰衣草、樟腦迷迭香、冬青白珠樹）：孕婦、嬰幼兒、癲癇、蠶豆症族群的空間應避免。</li>
+    </ul>
+  </div>
+  <div class="callout" style="margin-bottom:16px">
+    <h3>🐾 寵物與敏感族群</h3>
+    <ul>
+      <li><b>貓咪</b>代謝力弱，對茶樹、薄荷類、柑橘、松柏針葉、丁香、肉桂較敏感；有貓犬家庭請降低用量、保持通風，讓寵物能自由離開，並避開牠們的活動核心區。</li>
+      <li>密閉小空間、孕婦、嬰幼兒請減量。感到頭暈、噁心、刺鼻＝過濃，立即停止並開窗。</li>
+    </ul>
+  </div>
+  <div class="callout">
+    <h3>🕯 使用習慣</h3>
+    <ul>
+      <li>間歇擴香：擴 30–60 分鐘後休息，鼻子才不疲乏。</li>
+      <li>同一配方連續使用勿超過 3 個月。</li>
+      <li>水氧機加水至水位線；擴香儀不加水、氣味濃，用量可更少、間歇使用；藤枝擴香精油濃度約 15–30%，適合玄關、浴室等長效處。</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  🌿 室內精油調香大師 · 依「精油調香大師」知識庫製作 · 香調結構＋平衡前中後調＋安全用量<br>
+  資料來源：Florihana 精油目錄與室內風格香氛調色盤 · 本工具為香氛設計參考，非醫療建議
+</footer>
+</div>
+
+<script>
+/* ---------- 資料 ---------- */
+// 風格配方（滴數以中空間為基準）
+const STYLES = {
+  "現代":{title:"清水木質",struct:["木質","柑橘"],impress:"俐落乾淨的木質柑橘，像剛整理好的清水模空間。",
+    top:[["佛手柑",3],["檸檬",1]],mid:[["絲柏",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  "簡約":{title:"留白",struct:["柑橘","清爽木質"],impress:"只用三支，清透無壓，一杯清水般乾淨。",
+    top:[["佛手柑",3]],mid:[["絲柏",2]],base:[["乳香",1]]},
+  "北歐":{title:"暖光森林",struct:["針葉","柑橘","微花"],impress:"北國木屋，窗外雪地、屋內暖光的 hygge 感。",
+    top:[["甜橙",3],["佛手柑",1]],mid:[["歐洲冷杉",2],["真正薰衣草",1]],base:[["大西洋雪松",1]]},
+  "日式／Japandi":{title:"檜木禪",struct:["木質","樹脂","綠意"],impress:"茶室與榻榻米，剛擦過的檜木浴桶。",
+    top:[["綠薄荷",1]],mid:[["日本檜木",2],["絲柏",2]],base:[["乳香",1],["大西洋雪松",1]]},
+  "奶油風":{title:"奶油餅乾",struct:["香草","柑橘","樹脂"],impress:"剛出爐的奶油餅乾、暖陽下的棉被。",
+    top:[["甜橙",3]],mid:[["花梨木",2]],base:[["香草",1],["安息香",1]]},
+  "工業風":{title:"舊皮革",struct:["木質","樹脂","辛香"],impress:"舊皮沙發、鐵件、雨後水泥牆的冷冽粗獷。",
+    top:[["佛手柑",2]],mid:[["絲柏",2],["黑胡椒",0.5]],base:[["大西洋雪松",2],["岩玫瑰",1]]},
+  "美式":{title:"壁爐暖木",struct:["溫暖木質","柑橘","微辛香"],impress:"壁爐、木質傢俱、感恩節廚房的溫暖。",
+    top:[["甜橙",3]],mid:[["花梨木",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  "鄉村":{title:"普羅旺斯花園",struct:["花香","草本","柑橘"],impress:"普羅旺斯花田與曬乾的香草束。",
+    top:[["甜橙",2]],mid:[["真正薰衣草",3],["波旁天竺葵",1],["桉油醇迷迭香",1]],base:[["大西洋雪松",1]]},
+  "法式":{title:"玫瑰沙龍",struct:["花香","柑橘"],impress:"香檳、絲綢、老公寓的線板與花器。",
+    top:[["佛手柑",3]],mid:[["真正薰衣草",2],["橙花",1],["大馬士革玫瑰",1]],base:[["花梨木",1]]},
+  "輕奢":{title:"東方絲絨",struct:["東方","花香","樹脂"],impress:"精品飯店大廳，絲絨與金屬的高級感。",
+    top:[["佛手柑",2]],mid:[["依蘭",1],["大馬士革玫瑰",1]],base:[["檀香",2],["乳香",1]]}
+};
+
+// 空間配方（作為安全底線；含目標與情境）
+const ROOMS = {
+  "玄關":{goal:"第一印象、淨化外帶氣味、持久",when:"全日長效，適合藤枝擴香瓶",
+    top:[["佛手柑",3],["檸檬",1]],mid:[["絲柏",2]],base:[["大西洋雪松",1],["茶樹",0.5]]},
+  "客廳":{goal:"溫馨待客、不過甜",when:"待客、家庭時光",
+    top:[["佛手柑",3],["甜橙",1]],mid:[["花梨木",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  "餐廳":{goal:"清爽淡雅、勿與食物味打架",when:"用餐前後，濃度宜低",
+    top:[["甜橙",3],["佛手柑",1]],mid:[["玫瑰天竺葵",1]],base:[["花梨木",1]]},
+  "廚房":{goal:"去油煙除味",when:"不煮飯時擴香，或做成噴霧",
+    top:[["檸檬",3]],mid:[["桉油醇迷迭香",2],["綠薄荷",1]],base:[]},
+  "書房":{goal:"提神專注、避免助眠香",when:"工作／讀書時段。勿放臥室配方",
+    top:[["檸檬",2],["胡椒薄荷",1]],mid:[["桉油醇迷迭香",2],["澳洲尤加利",1],["絲柏",1]],base:[["大西洋雪松",1]]},
+  "臥室":{goal:"助眠放鬆、避免提神香",when:"睡前 30–60 分鐘",
+    top:[["甜橙",2]],mid:[["真正薰衣草",3],["羅馬洋甘菊",1]],base:[["檀香",1],["岩蘭草",0.5]]},
+  "浴室":{goal:"清新淨味、除濕感",when:"全日，適合擴香石／藤枝",
+    top:[["檸檬",2],["綠薄荷",1]],mid:[["澳洲尤加利",2]],base:[["絲柏",1],["茶樹",0.5]]},
+  "更衣室":{goal:"優雅持久、除味防潮",when:"全日長效",
+    top:[["檸檬馬鞭草",2]],mid:[["真正薰衣草",2]],base:[["大西洋雪松",2],["廣藿香",0.5]]}
+};
+
+// 現成配方庫
+const LIB = [
+  // 風格
+  {c:"style",t:"現代",n:"清水木質",d:"俐落乾淨的木質柑橘。",top:[["佛手柑",3],["檸檬",1]],mid:[["絲柏",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  {c:"style",t:"簡約",n:"留白",d:"只用三支，清透無壓。",top:[["佛手柑",3]],mid:[["絲柏",2]],base:[["乳香",1]]},
+  {c:"style",t:"北歐",n:"暖光森林",d:"雪地木屋的 hygge。",top:[["甜橙",3],["佛手柑",1]],mid:[["歐洲冷杉",2],["真正薰衣草",1]],base:[["大西洋雪松",1]]},
+  {c:"style",t:"日式",n:"檜木禪",d:"茶室與檜木浴桶。",top:[["綠薄荷",1]],mid:[["日本檜木",2],["絲柏",2]],base:[["乳香",1],["大西洋雪松",1]]},
+  {c:"style",t:"奶油風",n:"奶油餅乾",d:"剛出爐的奶油甜香。",top:[["甜橙",3]],mid:[["花梨木",2]],base:[["香草",1],["安息香",1]]},
+  {c:"style",t:"工業風",n:"舊皮革",d:"皮沙發、鐵件、水泥牆。",top:[["佛手柑",2]],mid:[["絲柏",2],["黑胡椒",0.5]],base:[["大西洋雪松",2],["岩玫瑰",1]]},
+  {c:"style",t:"美式",n:"壁爐暖木",d:"壁爐與感恩節廚房。",top:[["甜橙",3]],mid:[["花梨木",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  {c:"style",t:"鄉村",n:"普羅旺斯花園",d:"花田與曬乾香草束。",top:[["甜橙",2]],mid:[["真正薰衣草",3],["波旁天竺葵",1],["桉油醇迷迭香",1]],base:[["大西洋雪松",1]]},
+  {c:"style",t:"法式",n:"玫瑰沙龍",d:"香檳、絲綢與花器。",top:[["佛手柑",3]],mid:[["真正薰衣草",2],["橙花",1],["大馬士革玫瑰",1]],base:[["花梨木",1]]},
+  {c:"style",t:"輕奢",n:"東方絲絨",d:"精品飯店的高級感。",top:[["佛手柑",2]],mid:[["依蘭",1],["大馬士革玫瑰",1]],base:[["檀香",2],["乳香",1]]},
+  // 空間
+  {c:"room",t:"玄關",n:"歡迎清新",d:"第一印象與淨化，長效。",top:[["佛手柑",3],["檸檬",1]],mid:[["絲柏",2]],base:[["大西洋雪松",1],["茶樹",0.5]]},
+  {c:"room",t:"客廳",n:"溫馨待客",d:"溫暖木質不過甜。",top:[["佛手柑",3],["甜橙",1]],mid:[["花梨木",2]],base:[["大西洋雪松",1],["乳香",1]]},
+  {c:"room",t:"餐廳",n:"清爽佐餐",d:"清淡不搶食物味。",top:[["甜橙",3],["佛手柑",1]],mid:[["玫瑰天竺葵",1]],base:[["花梨木",1]]},
+  {c:"room",t:"廚房",n:"去油清新",d:"不煮飯時擴。",top:[["檸檬",3]],mid:[["桉油醇迷迭香",2],["綠薄荷",1]],base:[]},
+  {c:"room",t:"書房",n:"專注提神",d:"提神香，勿放臥室。",top:[["檸檬",2],["胡椒薄荷",1]],mid:[["桉油醇迷迭香",2],["澳洲尤加利",1],["絲柏",1]],base:[["大西洋雪松",1]]},
+  {c:"room",t:"臥室",n:"安眠",d:"助眠放鬆。",top:[["甜橙",2]],mid:[["真正薰衣草",3],["羅馬洋甘菊",1]],base:[["檀香",1],["岩蘭草",0.5]]},
+  {c:"room",t:"浴室",n:"清新淨味",d:"清涼除濕感。",top:[["檸檬",2],["綠薄荷",1]],mid:[["澳洲尤加利",2]],base:[["絲柏",1],["茶樹",0.5]]},
+  {c:"room",t:"更衣室",n:"優雅除味",d:"花香木質、持久防潮。",top:[["檸檬馬鞭草",2]],mid:[["真正薰衣草",2]],base:[["大西洋雪松",2],["廣藿香",0.5]]},
+  // 季節
+  {c:"season",t:"春",n:"花草甦醒",d:"清新花草。",top:[["佛手柑",3]],mid:[["波旁天竺葵",2],["快樂鼠尾草",1]],base:[["花梨木",1]]},
+  {c:"season",t:"夏",n:"清涼消暑",d:"青綠涼感。",top:[["萊姆",3]],mid:[["綠薄荷",1],["絲柏",2]],base:[["大西洋雪松",1]]},
+  {c:"season",t:"秋",n:"溫暖木質",d:"暖木微辛香。",top:[["甜橙",3]],mid:[["花梨木",2],["錫蘭肉桂皮",0.5]],base:[["大西洋雪松",1],["乳香",1]]},
+  {c:"season",t:"冬",n:"暖甜樹脂",d:"暖甜療癒。",top:[["甜橙",2]],mid:[["安息香",1],["香草",1]],base:[["乳香",2],["檀香",1]]},
+  // 情境
+  {c:"mood",t:"迎賓待客",n:"溫馨大方",d:"不搶戲的迎賓香。",top:[["佛手柑",3],["甜橙",1]],mid:[["花梨木",2]],base:[["乳香",1]]},
+  {c:"mood",t:"深度助眠",n:"沉入夢鄉",d:"安撫入眠。",top:[["甜橙",1]],mid:[["真正薰衣草",3],["羅馬洋甘菊",1]],base:[["岩蘭草",1],["檀香",1]]},
+  {c:"mood",t:"醒腦專注",n:"清晰思緒",d:"提神不刺激。",top:[["胡椒薄荷",1],["檸檬",2]],mid:[["桉油醇迷迭香",2],["澳洲尤加利",1]],base:[["絲柏",1]]},
+  {c:"mood",t:"淨化除味",n:"清新抗菌",d:"淨化空氣。",top:[["檸檬",3]],mid:[["茶樹",1],["澳洲尤加利",1]],base:[["絲柏",1]]},
+  {c:"mood",t:"冥想放鬆",n:"沉靜內觀",d:"沉穩後調為主。",top:[],mid:[["乳香",2]],base:[["檀香",2],["大西洋雪松",1]]},
+  {c:"mood",t:"節慶溫暖",n:"歡聚時光",d:"暖甜辛香。",top:[["甜橙",3]],mid:[["錫蘭肉桂皮",0.5],["丁香花苞",0.5]],base:[["乳香",1],["安息香",1]]}
+];
+
+// DIY 精油調色盤（含香階與濃郁/刺激旗標）
+const PALETTE = {
+  top:[
+    ["佛手柑","柑橘",0],["甜橙","柑橘",0],["檸檬","柑橘",0],["萊姆","柑橘",0],["葡萄柚","柑橘",0],["紅橘","柑橘",0],["日本柚子","柑橘",0],
+    ["檸檬香茅","檸檬香草",1],["山雞椒","檸檬香草",0],["檸檬馬鞭草","檸檬香草",0],
+    ["胡椒薄荷","薄荷",1],["綠薄荷","薄荷",0],["澳洲尤加利","尤加利",0],["藍膠尤加利","尤加利",1]
+  ],
+  mid:[
+    ["真正薰衣草","花香",0],["波旁天竺葵","花香",0],["羅馬洋甘菊","花香",0],["大馬士革玫瑰","花香",1],["橙花","花香",0],["依蘭","花香",1],
+    ["苦橙葉","草本",0],["快樂鼠尾草","草本",0],["甜馬鬱蘭","草本",0],["桉油醇迷迭香","草本",0],
+    ["絲柏","針葉",0],["歐洲冷杉","針葉",0],["黑雲杉","針葉",0],["杜松枝","針葉",0],["玫瑰天竺葵","花香",0]
+  ],
+  base:[
+    ["大西洋雪松","木質",0],["花梨木","木質",0],["日本檜木","木質",0],["檀香","木質",0],["岩玫瑰","木質",1],
+    ["乳香","樹脂",0],["安息香","樹脂",0],["沒藥","樹脂",0],
+    ["岩蘭草","根部",0],["廣藿香","根部",1],["香草","甜味",0],["零陵香豆","甜味",1],
+    ["黑胡椒","辛香",1],["錫蘭肉桂皮","辛香",1],["丁香花苞","辛香",1],["茶樹","木質",0]
+  ]
+};
+
+// 目錄資料
+const CATALOG = [
+  {note:"top",title:"前調 · 柑橘家族",items:[
+    ["佛手柑","細緻柑橘、微花香，安撫放鬆百搭定番（有無光敏兩款）",1],
+    ["甜橙","溫暖甜美陽光感，親和、助眠、老少咸宜",1],
+    ["檸檬","清新銳利、淨化提神",0],["萊姆","青綠俐落、活力",0],
+    ["粉紅葡萄柚","清甜微苦、振奮代謝",0],["紅橘","柔甜溫和，適合兒童睡前",0],["日本柚子","溫暖幸福感的東方柑橘",0]
+  ]},
+  {note:"top",title:"前調 · 檸檬香草 / 薄荷 / 尤加利",items:[
+    ["檸檬香茅","奔放檸檬草、驅蚊淨化（味較衝，少量）",0],["山雞椒","檸檬醛清甜、提振",0],["檸檬馬鞭草","細緻檸檬花香、優雅",0],
+    ["胡椒薄荷","清涼穿透、提神",0],["綠薄荷","溫和清甜薄荷（較不刺激）",0],
+    ["澳洲尤加利","溫和款尤加利",0],["藍膠尤加利","強勁通透",0],["檸檬尤加利","帶檸檬感、驅蚊",0]
+  ]},
+  {note:"mid",title:"中調 · 花香家族",items:[
+    ["真正薰衣草","柔和花香、萬用放鬆、救援用油",1],["波旁天竺葵","玫瑰般花草香、平衡百搭",1],
+    ["羅馬洋甘菊","甜蘋果花香、深度安撫",0],["大馬士革玫瑰","濃郁玫瑰（用量極少，1滴）",0],
+    ["橙花","清雅苦橙花、安撫",0],["依蘭","濃甜異國花香（少量，橫跨中後）",0]
+  ]},
+  {note:"mid",title:"中調 · 溫和草本 / 針葉森林",items:[
+    ["苦橙葉","清苦橙葉、安撫助眠",0],["快樂鼠尾草","溫暖茉綠草香、放鬆平衡",0],["甜馬鬱蘭","溫暖香草、深度放鬆",0],
+    ["桉油醇迷迭香","清亮提神（前中）",0],
+    ["絲柏","清冷收斂針葉、百搭",1],["歐洲冷杉","清新森林芬多精",0],["黑雲杉","森林芬多精",0],["杜松枝","清新針葉",0]
+  ]},
+  {note:"base",title:"後調 · 木質家族",items:[
+    ["大西洋雪松","乾爽木質、安定紮根、百搭定香",1],["花梨木","溫柔玫瑰木香、護膚柔和",1],["日本檜木","清雅檜木、森林禪意（日式必備）",1],
+    ["檀香","奶香木質、冥想高級感",0],["岩玫瑰","琥珀皮革感（工業風愛用）",0]
+  ]},
+  {note:"base",title:"後調 · 樹脂 / 根部 / 甜味",items:[
+    ["乳香","清澈神聖樹脂、安定冥想、百搭定香",1],["安息香","香草般甜暖（奶油風好用）",0],["沒藥","深沉苦甜藥脂",0],
+    ["岩蘭草","濃郁土地木香、深度安定助眠",1],["廣藿香","泥土甜香、皮革感（少量）",0],
+    ["香草","甜美奶香、療癒（奶油風核心）",0],["零陵香豆","香草杏仁般甜暖（少量定香）",0],["黑胡椒","辛香點綴",0]
+  ]}
+];
+
+// 安全提醒對照
+const PHOTO = ["佛手柑","檸檬","萊姆","甜橙","葡萄柚","紅橘","日本柚子","日本柚子"];
+const IRRIT = ["黑胡椒","錫蘭肉桂皮","丁香花苞","檸檬香茅"];
+const PETS  = ["茶樹","胡椒薄荷","綠薄荷","藍膠尤加利","澳洲尤加利","佛手柑","檸檬","甜橙","萊姆","絲柏","歐洲冷杉","黑雲杉","杜松枝","錫蘭肉桂皮","丁香花苞","日本檜木"];
+
+/* ---------- 工具 ---------- */
+const noteColor={top:"var(--top)",mid:"var(--mid)",base:"var(--base)"};
+const noteZh={top:"前調",mid:"中調",base:"後調"};
+const fmt=n=>Number.isInteger(n)?n:(n===0.5?"½":n);
+function findNote(oil){for(const n of["top","mid","base"])if(PALETTE[n].some(o=>o[0]===oil))return n;
+  // fallback for oils only in recipes
+  const map={"茶樹":"base","玫瑰天竺葵":"mid","快樂鼠尾草":"mid","錫蘭肉桂皮":"base","丁香花苞":"base"};return map[oil]||"mid";}
+
+/* ---------- Tabs ---------- */
+document.querySelectorAll("nav.tabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav.tabs button").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll("section.tab").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+/* ---------- 產生器 ---------- */
+let selStyle=null,selRoom=null,selSize=1;
+const styleChips=document.getElementById("styleChips"),roomChips=document.getElementById("roomChips");
+Object.keys(STYLES).forEach(k=>{
+  const c=document.createElement("div");c.className="chip";c.innerHTML=`${k}<small>${STYLES[k].title}</small>`;
+  c.onclick=()=>{selStyle=selStyle===k?null:k;paint();};c.dataset.k=k;styleChips.appendChild(c);
+});
+Object.keys(ROOMS).forEach(k=>{
+  const c=document.createElement("div");c.className="chip";c.innerHTML=`${k}<small>${ROOMS[k].goal}</small>`;
+  c.onclick=()=>{selRoom=selRoom===k?null:k;paint();};c.dataset.k=k;roomChips.appendChild(c);
+});
+document.querySelectorAll("#sizeChips .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#sizeChips .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");selSize=parseFloat(c.dataset.size);
+});
+function paint(){
+  styleChips.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.k===selStyle));
+  roomChips.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",c.dataset.k===selRoom));
+}
+document.getElementById("genBtn").onclick=generate;
+
+function scaleDrops(arr,f){return arr.map(([o,d])=>{
+  let v=d*f; if(v<0.5)v=0.5; // 保底
+  v=Math.round(v*2)/2; return [o,v];});}
+
+function mergeRecipe(){
+  // 融合：以空間為底，加入風格 1-2 支性格精油（少量）
+  const room=selRoom?ROOMS[selRoom]:null, style=selStyle?STYLES[selStyle]:null;
+  if(room&&style){
+    const r={top:[...room.top],mid:[...room.mid],base:[...room.base]};
+    // 從風格 base/mid 各挑一支獨特精油，做「上色」點綴 0.5–1 滴
+    const have=new Set([...r.top,...r.mid,...r.base].map(x=>x[0]));
+    const accents=[...style.base,...style.mid].filter(x=>!have.has(x[0]));
+    let added=0;
+    for(const [o,] of accents){ if(added>=2)break;
+      const n=findNote(o); const drop=(["大馬士革玫瑰","依蘭","橙花","岩玫瑰","廣藿香","黑胡椒","香草","錫蘭肉桂皮"].includes(o))?0.5:1;
+      r[n].push([o,drop]); have.add(o); added++;
+    }
+    return {title:`${selRoom} × ${selStyle}`, impress:`以「${room.goal}」為底，融入${selStyle}風格的性格精油。`,
+      struct:style.struct, r, note:`空間機能＝安全底線；風格＝氣味性格。適合情境：${room.when}。`};
+  }
+  if(style) return {title:`${selStyle}｜${style.title}`,impress:style.impress,struct:style.struct,
+    r:{top:[...style.top],mid:[...style.mid],base:[...style.base]},note:""};
+  if(room) return {title:`${selRoom}`,impress:room.goal,struct:[],
+    r:{top:[...room.top],mid:[...room.mid],base:[...room.base]},note:`適合情境：${room.when}。`};
+  return null;
+}
+
+function safetyFor(oils){
+  const s=[];
+  if(oils.some(o=>PHOTO.includes(o))) s.push("<b>光敏</b>：柑橘類純空間擴香無妨；若做身體噴霧，塗抹後避免日曬。");
+  if(oils.some(o=>IRRIT.includes(o))) s.push("<b>刺激</b>：含肉桂／丁香／黑胡椒等，僅極少量點綴，勿加量。");
+  if(oils.some(o=>PETS.includes(o)))  s.push("<b>寵物</b>：含貓咪較敏感的精油，有貓犬家庭請降低用量、保持通風並讓寵物能自由離開。");
+  s.push("勿把純精油直接滴於家具木頭；請滴入擴香工具或棉球。感到刺鼻頭暈即開窗停用。");
+  return s;
+}
+
+function recipeHTML(data,size){
+  const f=size;
+  const R={top:scaleDrops(data.r.top,f),mid:scaleDrops(data.r.mid,f),base:scaleDrops(data.r.base,f)};
+  const total=[...R.top,...R.mid,...R.base].reduce((a,[,d])=>a+d,0);
+  const allOils=[...R.top,...R.mid,...R.base].map(x=>x[0]);
+  const sizeLabel=size===0.5?"小空間（浴室／玄關，擴香石可滴總量、水氧機加水）":size===1.5?"大空間（客廳／開放式，水氧機加滿水位）":"中空間（臥室／書房，水氧機加滿水位）";
+  const rows=["top","mid","base"].map(n=>{
+    if(!R[n].length)return "";
+    const lines=R[n].map(([o,d])=>`<div class="oilline"><span>${o}</span><span class="d">${fmt(d)} 滴</span></div>`).join("");
+    return `<div class="noterow ${n[0]==='t'?'t':n[0]==='m'?'m':'b'}"><div class="lbl">${noteZh[n]}</div>${lines}</div>`;
+  }).join("");
+  const struct=data.struct.length?`<div class="struct">${data.struct.map((s,i)=>`<span class="pill ${i===0?'t':i===1?'m':'b'}">${s}</span>`).join("")}</div>`:"";
+  const safetyArr=safetyFor(allOils);
+  const safety=safetyArr.map(x=>`<div>• ${x}</div>`).join("");
+  window.__genCard={title:data.title,subtitle:"",impress:data.impress,struct:data.struct||[],R:R,
+    total:fmt(total),tool:sizeLabel,safety:safetyArr.map(s=>s.replace(/<[^>]+>/g,""))};
+  return `<div class="recipe">
+    <h3>🌿 ${data.title}</h3>
+    <p class="impress">${data.impress}</p>
+    ${struct}
+    ${rows}
+    <div class="meta">
+      <div><b>總量：</b>約 ${fmt(total)} 滴 · ${sizeLabel}</div>
+      ${data.note?`<div><b>說明：</b>${data.note}</div>`:""}
+      <div><b>擴香建議：</b>水氧機加水至水位線後滴入；小空間可改擴香石／棉球，滴數減半、間歇擴香 30–60 分鐘。</div>
+    </div>
+    <div class="safety"><b>⚠ 安全提醒</b>${safety}</div>
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost" onclick="loadToDiy(${JSON.stringify(JSON.stringify(R)).replace(/"/g,'&quot;')})">帶入 DIY 台微調</button>
+      <button class="btn ghost" onclick="exportPNG(window.__genCard,'集思香氛配方')">💾 存成圖片卡</button>
+      <button class="btn ghost" onclick="window.print()">列印 / 存 PDF</button>
+    </div>
+  </div>`;
+}
+
+function generate(){
+  const data=mergeRecipe();
+  const out=document.getElementById("genOut");
+  if(!data){out.innerHTML=`<div class="card" style="text-align:center;color:var(--ink2)">請至少選一個風格或空間 🌱</div>`;return;}
+  out.innerHTML=recipeHTML(data,selSize);
+}
+
+/* ---------- 現成配方庫 ---------- */
+function blendDrops(b){
+  const all=[...b.top.map(x=>[x,'top']),...b.mid.map(x=>[x,'mid']),...b.base.map(x=>[x,'base'])];
+  return all.map(([[o,d],n])=>`<span><i class="dot" style="background:${noteColor[n]}"></i>${o} ${fmt(d)}</span>`).join("");
+}
+const libGrid=document.getElementById("libGrid");
+function renderLib(f){
+  libGrid.innerHTML=LIB.filter(b=>f==="all"||b.c===f).map((b,i)=>{
+    const cat={style:"風格",room:"空間",season:"季節",mood:"情境"}[b.c];
+    return `<div class="libcard" onclick="loadBlend(${LIB.indexOf(b)})">
+      <div class="tag">${cat} · ${b.t}</div>
+      <h4>${b.n}</h4>
+      <div class="desc">${b.d}</div>
+      <div class="drops">${blendDrops(b)}</div>
+    </div>`;}).join("");
+}
+document.querySelectorAll("#libFilter button").forEach(btn=>btn.onclick=()=>{
+  document.querySelectorAll("#libFilter button").forEach(x=>x.classList.remove("on"));
+  btn.classList.add("on");renderLib(btn.dataset.f);
+});
+renderLib("all");
+function loadBlend(i){
+  const b=LIB[i];const R={top:b.top,mid:b.mid,base:b.base};
+  loadToDiy(JSON.stringify(R));
+}
+
+/* ---------- DIY ---------- */
+let diy={}; // {oil:{note,drops}}
+const palette=document.getElementById("palette");
+function renderPalette(){
+  palette.innerHTML=["top","mid","base"].map(n=>{
+    const btns=PALETTE[n].map(([o,fam,strong])=>
+      `<button class="oilbtn ${strong?'strong':''}" onclick="addOil('${o}','${n}')" title="${fam}">${o}</button>`).join("");
+    return `<div><h5><i class="dot" style="background:${noteColor[n]}"></i>${noteZh[n]}</h5><div class="oilbtns">${btns}</div></div>`;
+  }).join("");
+}
+renderPalette();
+function isStrong(oil){for(const n in PALETTE){const f=PALETTE[n].find(o=>o[0]===oil);if(f)return f[2]===1;}return false;}
+function addOil(o,n){ if(!diy[o])diy[o]={note:n,drops:0}; diy[o].drops+=isStrong(o)?0.5:1; renderDiy(); }
+function chg(o,delta){ if(!diy[o])return; diy[o].drops=Math.round((diy[o].drops+delta)*2)/2;
+  if(diy[o].drops<=0)delete diy[o]; renderDiy(); }
+function renderDiy(){
+  const keys=Object.keys(diy);
+  const list=document.getElementById("selList");
+  if(!keys.length){list.innerHTML='<div class="empty">從左邊點選精油開始調香…</div>';
+    document.getElementById("ratioBox").style.display="none";document.getElementById("verdict").innerHTML="";return;}
+  const order={top:0,mid:1,base:2};
+  keys.sort((a,b)=>order[diy[a].note]-order[diy[b].note]);
+  list.innerHTML=keys.map(o=>`<div class="sel">
+    <span class="nm"><i class="dot" style="background:${noteColor[diy[o].note]}"></i>${o}${isStrong(o)?' <small style="color:var(--danger)">濃/刺</small>':''}</span>
+    <span class="stepper"><button onclick="chg('${o}',-0.5)">−</button><span class="v">${fmt(diy[o].drops)}</span><button onclick="chg('${o}',0.5)">＋</button></span>
+  </div>`).join("");
+  // 比例
+  const sum={top:0,mid:0,base:0};keys.forEach(o=>sum[diy[o].note]+=diy[o].drops);
+  const total=sum.top+sum.mid+sum.base;
+  document.getElementById("ratioBox").style.display="block";
+  document.getElementById("ratioBar").innerHTML=
+    `<i style="width:${sum.top/total*100}%;background:var(--top)"></i>
+     <i style="width:${sum.mid/total*100}%;background:var(--mid)"></i>
+     <i style="width:${sum.base/total*100}%;background:var(--base)"></i>`;
+  document.getElementById("ratioText").innerHTML=
+    `前 ${fmt(sum.top)} : 中 ${fmt(sum.mid)} : 後 ${fmt(sum.base)}　（總 ${fmt(total)} 滴）`;
+  // 評估
+  const issues=[],warns=[];
+  if(sum.top===0)issues.push("缺<b>前調</b> → 少了明亮第一印象，補 1 支柑橘／薄荷。");
+  if(sum.mid===0)issues.push("缺<b>中調</b> → 氣味會分裂不圓融，補花香／草本，或加 1 滴真正薰衣草。");
+  if(sum.base===0)issues.push("缺<b>後調</b> → 香味留不住、一下就散，補木質／樹脂定香。");
+  keys.forEach(o=>{ if(isStrong(o)&&diy[o].drops>1)warns.push(`${o} 為濃郁／刺激精油，建議 ½–1 滴即可，目前 ${fmt(diy[o].drops)} 滴恐蓋掉整體。`);});
+  if(total>12)warns.push(`總量 ${fmt(total)} 滴偏高，中大空間水氧機約 8–12 滴為宜，密閉小空間請再減量。`);
+  const v=document.getElementById("verdict");
+  if(issues.length){
+    v.className="verdict bad";v.innerHTML="⚠ 香階不完整：<ul>"+issues.map(x=>`<li>${x}</li>`).join("")+"</ul>";
+  }else if(warns.length){
+    v.className="verdict warn";v.innerHTML="◎ 香階齊全，但可微調：<ul>"+warns.map(x=>`<li>${x}</li>`).join("")+"</ul>";
+  }else{
+    v.className="verdict good";
+    v.innerHTML=`✓ 前中後齊備，結構立體平衡！比例約 ${Math.round(sum.top/(sum.base||1))}:${Math.round(sum.mid/(sum.base||1))}:1，接近黃金比例。可直接擴香。`;
+  }
+}
+function loadToDiy(json){
+  const R=typeof json==="string"?JSON.parse(json):json;
+  diy={};
+  ["top","mid","base"].forEach(n=>(R[n]||[]).forEach(([o,d])=>{diy[o]={note:n,drops:d};}));
+  renderDiy();
+  document.querySelector('nav.tabs button[data-tab="diy"]').click();
+}
+document.getElementById("clearDiy").onclick=()=>{diy={};renderDiy();};
+document.getElementById("rescueDiy").onclick=()=>{addOil("真正薰衣草","mid");};
+
+/* ---------- 目錄 ---------- */
+document.getElementById("catalogOut").innerHTML=CATALOG.map((cat,i)=>{
+  const items=cat.items.map(([o,desc,star])=>
+    `<div class="oilitem"><b>${star?'<span class="star">★</span>':''}${o}</b><small>${desc}</small></div>`).join("");
+  return `<details class="cat" ${i<2?'open':''}>
+    <summary><i class="dot" style="width:12px;height:12px;background:${noteColor[cat.note]}"></i>${cat.title}</summary>
+    <div class="body">${items}</div></details>`;
+}).join("");
+
+/* ---------- 換算器 ---------- */
+let convSrc="diy",convProduct="spray",sprayC=1.5,dropsSize=7;
+const DROP_ML=0.05;
+document.querySelectorAll("#convSrc .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#convSrc .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");convSrc=c.dataset.src;
+  document.getElementById("manualBox").style.display=convSrc==="manual"?"block":"none";updateConvRatio();
+});
+document.querySelectorAll("#convProduct .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#convProduct .chip").forEach(x=>x.classList.remove("on"));
+  c.classList.add("on");convProduct=c.dataset.p;
+  document.getElementById("optSpray").style.display=convProduct==="spray"?"block":"none";
+  document.getElementById("optReed").style.display=convProduct==="reed"?"block":"none";
+  document.getElementById("optDrops").style.display=convProduct==="drops"?"block":"none";
+});
+document.querySelectorAll("#sprayUse .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#sprayUse .chip").forEach(x=>x.classList.remove("on"));c.classList.add("on");sprayC=parseFloat(c.dataset.c);
+});
+document.querySelectorAll("#dropsSize .chip").forEach(c=>c.onclick=()=>{
+  document.querySelectorAll("#dropsSize .chip").forEach(x=>x.classList.remove("on"));c.classList.add("on");dropsSize=parseFloat(c.dataset.s);
+});
+const reedCEl=document.getElementById("reedC");
+reedCEl.oninput=()=>document.getElementById("reedCval").textContent=reedCEl.value;
+["mTop","mMid","mBase"].forEach(id=>document.getElementById(id).oninput=updateConvRatio);
+
+function getSourceBlend(){
+  if(convSrc==="diy"){
+    const keys=Object.keys(diy);
+    if(keys.length){
+      const oils=keys.map(o=>({name:o,note:diy[o].note,drops:diy[o].drops}));
+      const ratio={top:0,mid:0,base:0};oils.forEach(o=>ratio[o.note]+=o.drops);
+      return {hasOils:true,oils,ratio};
+    }
+  }
+  if(convSrc==="manual"){
+    return {hasOils:false,oils:[],ratio:{top:+document.getElementById("mTop").value||0,mid:+document.getElementById("mMid").value||0,base:+document.getElementById("mBase").value||0}};
+  }
+  return {hasOils:false,oils:[],ratio:{top:3,mid:2,base:1}};
+}
+function updateConvRatio(){
+  const b=getSourceBlend(),r=b.ratio;
+  document.getElementById("convRatio").innerHTML=
+    `目前比例 → <b>前 ${fmt(r.top)} : 中 ${fmt(r.mid)} : 後 ${fmt(r.base)}</b> `+
+    (b.hasOils?`（沿用 DIY 台 ${b.oils.length} 支精油）`:(convSrc==="manual"?"（手動份數）":"（未設定，用預設 3:2:1）"));
+}
+function scaleOilsToDrops(oils,target){
+  const cur=oils.reduce((a,o)=>a+o.drops,0)||1,f=target/cur;
+  return oils.map(o=>({...o,drops:Math.max(1,Math.round(o.drops*f))}));
+}
+function splitByRatio(D,r){const s=r.top+r.mid+r.base||1;const t=Math.round(D*r.top/s),m=Math.round(D*r.mid/s);return {top:t,mid:m,base:Math.max(0,D-t-m)};}
+function notesFromOils(oils){const R={top:[],mid:[],base:[]};oils.forEach(o=>R[o.note].push([o.name,o.drops]));return R;}
+function notesFromSplit(sp){return {top:sp.top?[["前調精油合計",sp.top]]:[],mid:sp.mid?[["中調精油合計",sp.mid]]:[],base:sp.base?[["後調精油合計",sp.base]]:[]};}
+
+document.getElementById("convBtn").onclick=computeConvert;
+function computeConvert(){
+  const b=getSourceBlend();updateConvRatio();
+  let title,impress,R,metaLines,total;
+  if(convProduct==="drops"){
+    const D=dropsSize;
+    R=b.hasOils?notesFromOils(scaleOilsToDrops(b.oils,D)):notesFromSplit(splitByRatio(D,b.ratio));
+    total=[].concat(R.top,R.mid,R.base).reduce((a,[,d])=>a+d,0);
+    title="💧 水氧機／擴香儀 配方";
+    impress=`水氧機加水至水位線後滴入共約 ${total} 滴；擴香儀不加水、氣味濃，可再減 1–2 滴並間歇使用。`;
+    metaLines=[`總量 約 ${total} 滴`,"間歇擴香 30–60 分鐘，鼻子較不易疲乏"];
+  }else if(convProduct==="spray"){
+    const vol=+document.getElementById("sprayVol").value||100;
+    const oilMl=+(vol*sprayC/100).toFixed(2),oilDrops=Math.round(oilMl/DROP_ML);
+    const solub=+(oilMl*4).toFixed(1),water=+(vol-oilMl-solub).toFixed(1);
+    R=b.hasOils?notesFromOils(scaleOilsToDrops(b.oils,oilDrops)):notesFromSplit(splitByRatio(oilDrops,b.ratio));
+    title=`🫧 噴霧配方 ${vol}ml · 濃度 ${sprayC}%`;
+    impress=`精油總量約 ${oilMl} ml（≈${oilDrops} 滴），依香階分配如下。`;
+    metaLines=[`精油：${oilMl} ml（≈ ${oilDrops} 滴）`,`增溶劑(Solubol)或香水酒精：約 ${solub} ml`,`蒸餾水／純露：約 ${water} ml`,"使用前搖勻；柑橘類做身體噴霧後避免日曬"];
+    total=oilDrops;
+  }else{
+    const vol=+document.getElementById("reedVol").value||100,C=+reedCEl.value;
+    const oilMl=+(vol*C/100).toFixed(1),oilDrops=Math.round(oilMl/DROP_ML);
+    R=b.hasOils?notesFromOils(scaleOilsToDrops(b.oils,oilDrops)):notesFromSplit(splitByRatio(oilDrops,b.ratio));
+    title=`🎋 藤枝擴香配方 · 濃度 ${C}%`;
+    impress=`基劑 ${vol} ml ＋ 精油約 ${oilMl} ml（≈${oilDrops} 滴），插 5–8 支藤枝。`;
+    metaLines=[`擴香基劑(DPG)或高純度酒精：${vol} ml`,`精油：${oilMl} ml（≈ ${oilDrops} 滴）`,"藤枝 5–8 支，每週翻面一次維持散發"];
+    total=oilDrops;
+  }
+  const allOils=b.hasOils?b.oils.map(o=>o.name):[];
+  const safety=b.hasOils?safetyFor(allOils).map(s=>s.replace(/<[^>]+>/g,"")):["勿把純精油直接滴於家具木頭；柑橘類做身體用途後避免日曬。"];
+  const card={title,subtitle:"",impress,struct:[],R,total:fmt(total),tool:"",safety};
+  window.__convCard=card;
+  document.getElementById("convOut").innerHTML=convResultHTML(card,metaLines);
+}
+function convResultHTML(card,metaLines){
+  const rows=["top","mid","base"].map(n=>{
+    const arr=card.R[n];if(!arr.length)return "";
+    const cls=n==="top"?"t":n==="mid"?"m":"b";
+    const lines=arr.map(([o,d])=>`<div class="oilline"><span>${o}</span><span class="d">${fmt(d)} 滴</span></div>`).join("");
+    return `<div class="noterow ${cls}"><div class="lbl">${noteZh[n]}</div>${lines}</div>`;
+  }).join("");
+  return `<div class="recipe">
+    <h3>${card.title}</h3><p class="impress">${card.impress}</p>${rows}
+    <div class="meta">${metaLines.map(m=>`<div>• ${m}</div>`).join("")}</div>
+    <div class="safety"><b>⚠ 安全提醒</b>${card.safety.map(s=>`<div>• ${s}</div>`).join("")}</div>
+    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn ghost" onclick="exportPNG(window.__convCard,'集思香氛換算')">💾 存成圖片卡</button>
+      <button class="btn ghost" onclick="window.print()">列印 / 存 PDF</button>
+    </div></div>`;
+}
+updateConvRatio();
+
+/* ---------- 圖片卡匯出（Canvas） ---------- */
+document.getElementById("exportDiy").onclick=()=>{
+  const keys=Object.keys(diy);
+  if(!keys.length){alert("請先在調香台加入精油再匯出。");return;}
+  const R={top:[],mid:[],base:[]},sum={top:0,mid:0,base:0};
+  keys.forEach(o=>{R[diy[o].note].push([o,diy[o].drops]);sum[diy[o].note]+=diy[o].drops;});
+  const total=sum.top+sum.mid+sum.base;
+  const struct=[];if(sum.top)struct.push("前調");if(sum.mid)struct.push("中調");if(sum.base)struct.push("後調");
+  exportPNG({title:"我的自訂香氛配方",subtitle:"",
+    impress:`前 ${fmt(sum.top)} : 中 ${fmt(sum.mid)} : 後 ${fmt(sum.base)}，共約 ${fmt(total)} 滴。`,
+    struct,R,total:fmt(total),tool:"水氧機加水至水位線後滴入；小空間減半、間歇擴香。",
+    safety:safetyFor(keys).map(s=>s.replace(/<[^>]+>/g,""))},"集思自訂香氛配方");
+};
+
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function exportPNG(card,filename){
+  const W=780;
+  const meas=document.createElement("canvas").getContext("2d");
+  const H=Math.ceil(renderCard(meas,W,card,true));
+  const c=document.createElement("canvas");c.width=W;c.height=H;
+  const ctx=c.getContext("2d");
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,"#fffdf8");g.addColorStop(1,"#f3ead9");
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="#e3d8c4";ctx.lineWidth=2;ctx.strokeRect(1,1,W-2,H-2);
+  renderCard(ctx,W,card,false);
+  const a=document.createElement("a");a.href=c.toDataURL("image/png");a.download=(filename||"香氛配方")+".png";
+  document.body.appendChild(a);a.click();a.remove();
+}
+function renderCard(ctx,W,card,measure){
+  const pad=44,cw=W-pad*2,gold="#c2a35a",accent="#8a7a52",ink="#3d3428",ink2="#6d6350",line="#e3d8c4";
+  const noteC={top:"#c9822e",mid:"#7d9b6a",base:"#8a6d54"};
+  const F=(sz,w)=>`${w||"400"} ${sz}px "Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif`;
+  function wrap(text,font,maxW){ctx.font=font;const chars=[...String(text)];let lines=[],cur="";
+    for(const ch of chars){if(ch==="\n"){lines.push(cur);cur="";continue;}
+      if(ctx.measureText(cur+ch).width>maxW&&cur){lines.push(cur);cur=ch;}else cur+=ch;}
+    if(cur||!lines.length)lines.push(cur);return lines;}
+  let y=pad;
+  if(!measure){
+    const cx=pad+22,cy=y+22;
+    ctx.strokeStyle=gold;ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,20,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.beginPath();
+    ctx.moveTo(cx,cy-13);ctx.bezierCurveTo(cx-9,cy-6,cx-9,cy+6,cx,cy+13);ctx.bezierCurveTo(cx+9,cy+6,cx+9,cy-6,cx,cy-13);ctx.stroke();
+    ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(cx,cy-10);ctx.lineTo(cx,cy+13);ctx.stroke();
+    ctx.textBaseline="middle";ctx.textAlign="left";
+    ctx.fillStyle=accent;ctx.font=F(18,"800");ctx.fillText("集思室內設計",pad+52,y+15);
+    ctx.fillStyle=ink2;ctx.font=F(9,"700");ctx.fillText("J I S I   I N T E R I O R   D E S I G N",pad+53,y+33);
+    ctx.textBaseline="alphabetic";
+  }
+  y+=58;
+  if(!measure){ctx.strokeStyle=line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();}
+  y+=28;
+  ctx.textAlign="left";
+  wrap(card.title,F(26,"800"),cw).forEach(l=>{if(!measure){ctx.fillStyle=ink;ctx.font=F(26,"800");ctx.fillText(l,pad,y+22);}y+=36;});
+  y+=2;
+  wrap(card.impress,F(15),cw).forEach(l=>{if(!measure){ctx.fillStyle=ink2;ctx.font=F(15);ctx.fillText(l,pad,y+16);}y+=25;});
+  y+=8;
+  if(card.struct&&card.struct.length){
+    let x=pad;const pc=["#c9822e","#7d9b6a","#8a6d54"];
+    card.struct.forEach((s,i)=>{ctx.font=F(13,"800");const tw=ctx.measureText(s).width+24;
+      if(!measure){ctx.fillStyle=pc[i]||"#8a6d54";roundRect(ctx,x,y,tw,26,13);ctx.fill();
+        ctx.fillStyle="#fff";ctx.textBaseline="middle";ctx.fillText(s,x+12,y+14);ctx.textBaseline="alphabetic";}
+      x+=tw+8;});
+    y+=40;
+  }
+  ["top","mid","base"].forEach(n=>{
+    const arr=card.R[n];if(!arr||!arr.length)return;
+    const label=n==="top"?"前調 TOP":n==="mid"?"中調 MIDDLE":"後調 BASE";
+    if(!measure){ctx.fillStyle=noteC[n];ctx.fillRect(pad,y-1,4,20);ctx.fillStyle=noteC[n];ctx.font=F(14,"800");ctx.fillText(label,pad+14,y+13);}
+    y+=30;
+    arr.forEach(([o,d])=>{
+      if(!measure){ctx.fillStyle=ink;ctx.font=F(15);ctx.textAlign="left";ctx.fillText(o,pad+14,y+13);
+        ctx.fillStyle=accent;ctx.font=F(15,"800");ctx.textAlign="right";ctx.fillText(fmt(d)+" 滴",W-pad,y+13);ctx.textAlign="left";
+        ctx.strokeStyle=line;ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(pad+14,y+23);ctx.lineTo(W-pad,y+23);ctx.stroke();ctx.setLineDash([]);}
+      y+=30;
+    });
+    y+=10;
+  });
+  if(card.tool){wrap("擴香建議："+card.tool,F(13),cw).forEach(l=>{if(!measure){ctx.fillStyle=ink2;ctx.font=F(13);ctx.fillText(l,pad,y+14);}y+=22;});y+=4;}
+  if(card.safety&&card.safety.length){
+    const lines=[];card.safety.forEach(s=>wrap("• "+s,F(12.5),cw-24).forEach(l=>lines.push(l)));
+    const boxH=lines.length*20+34;
+    if(!measure){ctx.fillStyle="#fdf1ec";roundRect(ctx,pad,y,cw,boxH,12);ctx.fill();
+      ctx.strokeStyle="#f0d6cc";ctx.lineWidth=1;roundRect(ctx,pad,y,cw,boxH,12);ctx.stroke();
+      ctx.fillStyle="#b4573f";ctx.font=F(12.5,"800");ctx.fillText("⚠ 安全提醒",pad+12,y+21);}
+    let yy=y+38;lines.forEach(l=>{if(!measure){ctx.fillStyle="#7c4a3a";ctx.font=F(12.5);ctx.fillText(l,pad+12,yy);}yy+=20;});
+    y+=boxH+16;
+  }
+  if(!measure){ctx.strokeStyle=line;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
+    ctx.fillStyle=ink2;ctx.font=F(11);ctx.textAlign="center";
+    ctx.fillText("集思室內設計 · 室內精油調香大師 · 香氛設計參考，非醫療建議",W/2,y+22);ctx.textAlign="left";}
+  y+=38;
+  return y+pad-20;
+}
+
+/* 預設帶入一個示範 */
+selStyle="北歐";paint();generate();
+</script>
+</body>
+</html>
