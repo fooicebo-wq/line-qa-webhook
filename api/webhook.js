@@ -424,6 +424,14 @@ export default async function handler(req, res) {
       const userMsg = event.message.text.trim();
       const replyToken = event.replyToken;
 
+      // ── 內部暗號：取得自己的 LINE userId（設定「發文提醒」推播對象用）──
+      // 只有知道暗號的人（老闆本人）會觸發，一般客戶不會打到。
+      if (userMsg === 'MYID888') {
+        await replyToLine(replyToken, [{ type: 'text',
+          text: '你的 LINE userId：\n' + (event.source?.userId || '(取不到，請確認是本人一對一傳訊)') }]);
+        continue;
+      }
+
       // 跳過原生精確關鍵字
       if (NATIVE_EXACT.has(userMsg)) continue;
 
