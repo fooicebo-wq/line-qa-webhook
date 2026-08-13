@@ -33,16 +33,6 @@ export default async function handler(req, res) {
   const qKey = (req.query?.key ?? url.searchParams.get('key') ?? '').trim();
   const envKey = (REMIND_KEY ?? '').trim();
 
-  // 安全診斷：只回報布林與長度，不洩漏任何實際值。查完會移除。
-  if (url.searchParams.get('diag') === '1') {
-    return res.status(200).json({
-      hasRemindKey: !!envKey, remindKeyLen: envKey.length,
-      hasBossId: !!BOSS_USER_ID, bossIdLen: (BOSS_USER_ID || '').length,
-      hasLineToken: !!LINE_TOKEN,
-      gotKeyLen: qKey.length, keyMatch: !!envKey && qKey === envKey,
-    });
-  }
-
   // 需帶正確密鑰才放行，避免端點被亂打
   if (!envKey || qKey !== envKey) {
     return res.status(403).json({ error: 'forbidden' });
