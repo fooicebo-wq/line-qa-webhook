@@ -13,6 +13,9 @@ const REMIND_TEXT =
 今天是發文日～挑幾張最近的案場美照，用一鍵發文系統發一篇吧！
 👉 https://one-click-post-fooice-s-projects.vercel.app
 
+🔍 順手看 SEO：客戶都搜什麼字找到你（把熱門字用進標題，排名更好）
+👉 https://search.google.com/search-console
+
 穩定發文 = FB / IG 演算法更愛你 + 部落格 SEO 持續累積 💪
 （每週一、四中午提醒你；不想收到再跟 AI 說一聲就能關）`;
 

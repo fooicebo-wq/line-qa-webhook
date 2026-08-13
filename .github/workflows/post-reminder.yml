@@ -1,0 +1,22 @@
+name: 發文提醒（LINE 推播）
+
+# 每週一、四 台北時間 12:30 提醒老闆發文。
+# GitHub 的排程時間是 UTC：12:30 台北 = 04:30 UTC。
+# （GitHub 排程尖峰時可能延遲數分鐘，屬正常。）
+on:
+  schedule:
+    - cron: '30 4 * * 1,4'
+  workflow_dispatch:        # 允許手動測試觸發
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 呼叫 LINE 推播端點
+        run: |
+          echo "觸發發文提醒推播..."
+          resp=$(curl -s --max-time 60 \
+            "https://line-qa-webhook.vercel.app/api/remind?key=${{ secrets.REMIND_KEY }}")
+          echo "回應：$resp"
+          echo "$resp" | grep -q '"ok":true' || { echo "推播失敗"; exit 1; }
+          echo "✅ 已推播發文提醒到 LINE"
