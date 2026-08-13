@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>發文提醒設定｜集思室內設計</title>
+<style>
+  :root{ --bg:#f4efe6; --card:#fffdf8; --ink:#3d3833; --muted:#8a7f72;
+    --line:#e3d9c8; --gold:#b8975a; --gold-d:#9c7c45; --sage:#7d9a76; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--ink);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    line-height:1.7;padding:22px 16px 60px;}
+  .wrap{max-width:600px;margin:0 auto;}
+  h1{font-size:20px;font-weight:700;text-align:center;margin-bottom:4px;letter-spacing:.04em;}
+  .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:22px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 18px;box-shadow:0 6px 22px rgba(90,80,60,.08);margin-bottom:16px;}
+  label.field{display:block;font-weight:700;font-size:14px;margin-bottom:8px;}
+  .hint{color:var(--muted);font-size:12px;font-weight:400;margin-left:4px;}
+  textarea{width:100%;min-height:210px;border:1px solid var(--line);border-radius:10px;
+    padding:12px;font-family:inherit;font-size:14px;line-height:1.7;resize:vertical;color:var(--ink);background:#fffefb;}
+  .days{display:flex;flex-wrap:wrap;gap:8px;}
+  .day{flex:1;min-width:60px;text-align:center;border:1px solid var(--line);border-radius:10px;
+    padding:9px 4px;cursor:pointer;font-size:14px;user-select:none;transition:all .15s;background:#fffefb;}
+  .day.on{background:var(--gold);color:#fff;border-color:var(--gold);font-weight:700;}
+  input[type=time],input[type=password]{width:100%;border:1px solid var(--line);border-radius:10px;
+    padding:11px 12px;font-family:inherit;font-size:15px;color:var(--ink);background:#fffefb;}
+  .row{margin-bottom:18px;}
+  .btns{display:flex;gap:10px;margin-top:6px;}
+  button{flex:1;border:none;border-radius:12px;padding:14px;font-size:15px;font-weight:700;
+    font-family:inherit;cursor:pointer;transition:opacity .2s;letter-spacing:.06em;}
+  button:disabled{opacity:.5;cursor:not-allowed;}
+  .save{background:var(--gold);color:#fff;}
+  .save:hover:not(:disabled){background:var(--gold-d);}
+  .reset{background:transparent;color:var(--muted);border:1px solid var(--line);flex:0 0 auto;padding:14px 18px;}
+  .msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14px;display:none;white-space:pre-line;}
+  .msg.ok{display:block;background:#eef5ec;color:#4a6b45;border:1px solid #cfe3c9;}
+  .msg.err{display:block;background:#fdecec;color:#b4453a;border:1px solid #f3cfcb;}
+  .pw-note{color:var(--muted);font-size:12px;margin-top:6px;}
+  .preview-tip{font-size:12px;color:var(--muted);margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📸 發文提醒設定</h1>
+  <div class="sub">集思室內設計 · 改完按「儲存」即時生效</div>
+
+  <div class="card">
+    <div class="row">
+      <label class="field">提醒內容 <span class="hint">（LINE 會原樣推播給你）</span></label>
+      <textarea id="text" placeholder="載入中…"></textarea>
+      <div class="preview-tip">💡 可放連結、emoji、換行；建議保留「一鍵發文」網址方便一點就發。</div>
+    </div>
+
+    <div class="row">
+      <label class="field">提醒星期 <span class="hint">（可複選）</span></label>
+      <div class="days" id="days"></div>
+    </div>
+
+    <div class="row">
+      <label class="field">提醒時間 <span class="hint">（台北時間，實際約在此後 0～30 分內送出）</span></label>
+      <input type="time" id="time" value="12:30">
+    </div>
+
+    <div class="row">
+      <label class="field">管理密碼</label>
+      <input type="password" id="pw" placeholder="輸入密碼才能儲存" autocomplete="current-password">
+      <div class="pw-note">改設定需要密碼（避免他人亂改）。</div>
+    </div>
+
+    <div class="btns">
+      <button class="save" id="saveBtn" onclick="save()">儲存</button>
+      <button class="reset" onclick="resetDefault()">還原預設</button>
+    </div>
+    <div class="msg" id="msg"></div>
+  </div>
+</div>
+
+<script>
+  const DAY_LABELS = [['1','一'],['2','二'],['3','三'],['4','四'],['5','五'],['6','六'],['7','日']];
+  const daysBox = document.getElementById('days');
+  DAY_LABELS.forEach(([v,l])=>{
+    const d=document.createElement('div'); d.className='day'; d.dataset.v=v; d.textContent='週'+l;
+    d.onclick=()=>d.classList.toggle('on'); daysBox.appendChild(d);
+  });
+  function setDays(arr){ document.querySelectorAll('.day').forEach(d=>{
+    d.classList.toggle('on', (arr||[]).map(String).includes(d.dataset.v)); }); }
+  function getDays(){ return [...document.querySelectorAll('.day.on')].map(d=>parseInt(d.dataset.v,10)); }
+
+  const msg=document.getElementById('msg');
+  function showMsg(t,ok){ msg.textContent=t; msg.className='msg '+(ok?'ok':'err'); }
+
+  async function load(){
+    try{
+      const r=await fetch('/api/remind-config',{cache:'no-store'});
+      const j=await r.json();
+      const c=j.config||{};
+      document.getElementById('text').value=c.text||'';
+      setDays(c.days||[]);
+      if(c.time) document.getElementById('time').value=c.time;
+    }catch(e){ document.getElementById('text').placeholder='載入失敗，請重新整理'; }
+  }
+
+  async function save(){
+    const pw=document.getElementById('pw').value.trim();
+    if(!pw){ showMsg('請先輸入管理密碼',false); return; }
+    const payload={ pw, text:document.getElementById('text').value,
+      days:getDays(), time:document.getElementById('time').value };
+    const btn=document.getElementById('saveBtn'); btn.disabled=true; btn.textContent='儲存中…';
+    try{
+      const r=await fetch('/api/remind-config',{method:'POST',
+        headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+      const j=await r.json();
+      if(j.ok){ showMsg('✅ 已儲存！下次提醒就用新設定了。',true); }
+      else{ showMsg('❌ '+(j.error||'儲存失敗'),false); }
+    }catch(e){ showMsg('❌ 連線失敗，請再試一次',false); }
+    btn.disabled=false; btn.textContent='儲存';
+  }
+
+  async function resetDefault(){
+    const pw=document.getElementById('pw').value.trim();
+    if(!pw){ showMsg('還原預設也需要輸入管理密碼',false); return; }
+    if(!confirm('確定還原成預設的提醒內容與排程（週一、四 12:30）？目前的自訂內容會被覆蓋。')) return;
+    try{
+      const r=await fetch('/api/remind-config',{method:'POST',
+        headers:{'Content-Type':'application/json'}, body:JSON.stringify({pw,action:'reset'})});
+      const j=await r.json();
+      if(j.ok){ const c=j.config||{}; document.getElementById('text').value=c.text||'';
+        setDays(c.days||[]); if(c.time) document.getElementById('time').value=c.time;
+        showMsg('↩️ 已還原為預設。',true); }
+      else{ showMsg('❌ '+(j.error||'還原失敗'),false); }
+    }catch(e){ showMsg('❌ 連線失敗，請再試一次',false); }
+  }
+
+  load();
+</script>
+</body>
+</html>

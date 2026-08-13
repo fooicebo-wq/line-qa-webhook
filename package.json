@@ -2,5 +2,9 @@
   "name": "line-qa-webhook",
   "version": "1.0.0",
   "description": "集思室內設計 LINE 自動回覆 Webhook",
-  "private": true
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vercel/blob": "^0.27.3"
+  }
 }
