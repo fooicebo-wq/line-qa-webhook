@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pinterest 授權完成｜集思室內設計</title>
+<style>
+  body{max-width:640px;margin:0 auto;padding:50px 20px;
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    color:#33302c;background:#faf8f3;line-height:1.7;text-align:center;}
+  h1{font-size:22px;margin-bottom:8px;}
+  .box{background:#fff;border:1px solid #e3d9c8;border-radius:12px;padding:20px;margin:24px 0;
+    word-break:break-all;font-size:14px;text-align:left;}
+  .code{font-family:monospace;font-size:15px;color:#9c7c45;background:#f6f2ea;padding:14px;border-radius:8px;
+    word-break:break-all;user-select:all;}
+  button{background:#b8975a;color:#fff;border:none;border-radius:10px;padding:12px 24px;
+    font-size:15px;font-weight:700;cursor:pointer;margin-top:14px;}
+  .err{color:#b4453a;}
+  .muted{color:#8a7f72;font-size:13px;}
+</style>
+</head>
+<body>
+  <h1>🔗 Pinterest 授權</h1>
+  <div id="content">讀取中…</div>
+
+<script>
+  const p = new URLSearchParams(location.search);
+  const code = p.get('code');
+  const err = p.get('error');
+  const el = document.getElementById('content');
+  if (err) {
+    el.innerHTML = '<p class="err">❌ 授權失敗：' + err + '</p><p class="muted">請回到終端機重跑授權工具。</p>';
+  } else if (code) {
+    el.innerHTML =
+      '<p>✅ 授權成功！請複製下面這串「授權碼」，貼回終端機（Claude 給你的授權工具）：</p>' +
+      '<div class="box"><div class="code" id="code">' + code + '</div>' +
+      '<button onclick="copyCode()">📋 複製授權碼</button></div>' +
+      '<p class="muted">複製後回到終端機貼上即可，此頁可關閉。授權碼有效期很短，請盡快貼回。</p>';
+  } else {
+    el.innerHTML = '<p class="err">找不到授權碼</p><p class="muted">請從授權工具給的網址重新授權。</p>';
+  }
+  function copyCode(){
+    navigator.clipboard.writeText(document.getElementById('code').textContent)
+      .then(()=>{ event.target.textContent='✅ 已複製'; })
+      .catch(()=>{ alert('請手動選取複製'); });
+  }
+</script>
+</body>
+</html>
