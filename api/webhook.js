@@ -18,7 +18,7 @@ const KEYWORD_ACTIONS = {
 
   '預約': '📅 預約諮詢\n\n初次線上溝通與到辦公室初步諮詢皆「免費」！歡迎透過以下方式預約：\n\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n📍 台中市南區新華街30號\n\n也可先填需求清單，諮詢更有效率：\nhttps://cosmic-begonia-4ca436.netlify.app\n— 集思室內設計 AI 顧問',
 
-  '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n— 集思室內設計 AI 顧問',
+  '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🖼️ 作品集\nhttps://www.gisinterior.com/album/class.php?gid=946\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n— 集思室內設計 AI 顧問',
 
   '風格': '🎨 風格辨識服務\n\n請直接傳一張您喜歡的空間照片給我們，設計師會協助您辨識它屬於哪種風格，並建議適合您的規劃方向！\n\n您也可以用文字告訴我們喜歡的感覺（例如：溫馨、簡約、奢華、北歐），我們再為您推薦。\n— 集思室內設計 AI 顧問',
 
@@ -247,7 +247,7 @@ const MENU_SUB = {
 
 const MENU_ANSWERS = {
   // ── 🌟 認識集思 · 新手必看（精選）──
-  '70': '🏠 集思設計作品\n\n設計是視覺的語言，先看看我們的實際案例吧：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
+  '70': '🏠 集思設計作品\n\n設計是視覺的語言，先看看我們的實際案例吧：\n\n🖼️ 作品集\nhttps://www.gisinterior.com/album/class.php?gid=946\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '71': '📍 服務地點與聯絡方式\n\n您好！我們主要服務大台中地區，辦公室位在台中市南區新華街30號。您可以透過 LINE 直接留言，或於上班時間撥打 04-3505-2921 與我們聯繫初步討論喔！\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '72': '🎨 我們擅長的設計風格\n\n我們擅長透過乾淨的線條與材質本身的紋理，打造無壓的舒適空間，特別專精於「法式輕奢」、「北歐風」等風格。\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '73': '💰 諮詢與丈量收費\n\n初次的線上溝通，以及預約到我們辦公室進行初步諮詢，都是免費的！後續的丈量與提案費用，我們會在初步了解您的需求後，向您做透明且詳細的說明。\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
