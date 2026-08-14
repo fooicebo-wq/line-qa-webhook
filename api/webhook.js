@@ -18,7 +18,7 @@ const KEYWORD_ACTIONS = {
 
   '預約': '📅 預約諮詢\n\n初次線上溝通與到辦公室初步諮詢皆「免費」！歡迎透過以下方式預約：\n\n📞 市話：04-3505-2921\n📱 手機：0987-623-677\n📍 台中市南區新華街30號\n\n也可先填需求清單，諮詢更有效率：\nhttps://cosmic-begonia-4ca436.netlify.app\n— 集思室內設計 AI 顧問',
 
-  '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n— 集思室內設計 AI 顧問',
+  '作品': '🏠 集思作品集\n\n歡迎參考我們的實際案例與設計風格：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n— 集思室內設計 AI 顧問',
 
   '風格': '🎨 風格辨識服務\n\n請直接傳一張您喜歡的空間照片給我們，設計師會協助您辨識它屬於哪種風格，並建議適合您的規劃方向！\n\n您也可以用文字告訴我們喜歡的感覺（例如：溫馨、簡約、奢華、北歐），我們再為您推薦。\n— 集思室內設計 AI 顧問',
 
@@ -43,7 +43,7 @@ KEYWORD_ACTIONS['thank you'] = KEYWORD_ACTIONS['謝謝'];
 
 function buildFlexMenu() {
   const cats = [
-    { num: '01', en: 'ABOUT',    title: '認識集思 · 新手必看', desc: '地點・風格・收費・諮詢・工期', code: '7', featured: true },
+    { num: '01', en: 'ABOUT',    title: '認識集思 · 新手必看', desc: '看作品・風格・收費・諮詢・工期', code: '7', featured: true },
     { num: '02', en: 'SPACE',    title: '空間與動線規劃',     desc: '坪數放大・收納動線・夾層挑高', code: '1' },
     { num: '03', en: 'RENEW',    title: '老屋翻新基礎工程',   desc: '壁癌防水・電線管路・鋁窗',     code: '2' },
     { num: '04', en: 'MATERIAL', title: '材質與建材挑選',     desc: '系統木作・塗料地板・天花板',   code: '3' },
@@ -137,6 +137,7 @@ const MENU_SUB = {
 🌟 認識集思 · 新手必看
 ━━━━━━━━━━━━━━━━━
 
+[70] 看設計作品 ⭐推薦先看
 [71] 服務地點與聯絡方式？
 [72] 你們最擅長什麼設計風格？
 [73] 初次諮詢、丈量需要收費嗎？
@@ -245,7 +246,8 @@ const MENU_SUB = {
 // ── 第三層：各題解答 ──────────────────────────────────
 
 const MENU_ANSWERS = {
-  // ── 🌟 認識集思 · 新手必看（精選 6 題）──
+  // ── 🌟 認識集思 · 新手必看（精選）──
+  '70': '🏠 集思設計作品\n\n設計是視覺的語言，先看看我們的實際案例吧：\n\n🌐 官網\nhttps://www.gisinterior.com/\n\n📷 Instagram\nhttps://www.instagram.com/fooicebochen/\n\n👍 Facebook 搜尋「集思室內設計」\n\n💛 喜歡我們的風格嗎？填一份需求清單，讓我們為您量身規劃：\nhttps://cosmic-begonia-4ca436.netlify.app\n（或輸入「預約」安排免費諮詢）\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '71': '📍 服務地點與聯絡方式\n\n您好！我們主要服務大台中地區，辦公室位在台中市南區新華街30號。您可以透過 LINE 直接留言，或於上班時間撥打 04-3505-2921 與我們聯繫初步討論喔！\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '72': '🎨 我們擅長的設計風格\n\n我們擅長透過乾淨的線條與材質本身的紋理，打造無壓的舒適空間，特別專精於「法式輕奢」、「北歐風」等風格。\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
   '73': '💰 諮詢與丈量收費\n\n初次的線上溝通，以及預約到我們辦公室進行初步諮詢，都是免費的！後續的丈量與提案費用，我們會在初步了解您的需求後，向您做透明且詳細的說明。\n\n[0] 回主選單\n— 集思室內設計 AI 顧問',
